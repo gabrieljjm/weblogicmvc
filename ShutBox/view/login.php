@@ -1,6 +1,11 @@
 <?php
 session_start();
-if(isset($_SESSION['user'])) header ("Location:main.php")
+
+if(!isset($_SESSION['user'])){
+    include '../model/LoginModel.php';
+    die();
+}
+
 ?>
 
 <html>
@@ -10,12 +15,8 @@ if(isset($_SESSION['user'])) header ("Location:main.php")
 <body>
     <div id="login-controls">
         <h2>Login</h2>
-        <?php if(@$_GET['err'] == 1){?>
-        <div class ="error-text">Login incorrect. Please try again</div>
-        <?php
-        }
-        ?>
-        <form method = "POST" action = "index.php">
+
+        <form action = "../controller/LoginController.php" method = "POST" >
             <p>Username: <br />
             <input type = "text" name="user"/>
             </p>
