@@ -1,0 +1,15 @@
+<?php use ArmoredCore\WebObjects\Layout;
+
+Layout::includeLayout('header') ?>
+
+    <form class="form-signin" method="post">
+        <img class="mb-4" src="" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">Por favor inicie sessão</h1>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="text" name="inputName" class="form-control" placeholder="Nome" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="inputPwd" class="form-control" placeholder="Palavra-Passe" required>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+    </form>
+
+<?php Layout::includeLayout('footer') ?>
