@@ -1,3 +1,6 @@
+<?php
+    require '../controller/UserController.php';
+?>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,7 +28,8 @@
 
         <br>
 
-        <form>
+        <form action="../controller/UserController.php" method="POST">
+            <input type="hidden" name="action" value="login">
             <input type="text" id="login" class="fadeIn second" name="user" placeholder="Utilizador" required>
             <input type="text" id="password" class="fadeIn third" name="pass" placeholder="Palavra-passe" required>
             <input type="submit" class="fadeIn fourth" value="Log In">
@@ -34,7 +38,14 @@
     </div>
 </div>
 
-
+<?php
+    foreach ($users as $u){
+        echo "<tr>";
+        echo "<td>".$users['nome']."</td>";
+        echo "<td>".$users['pass']."</td>";
+        echo "<tr>";
+    }
+?>
 
 </body>
 </html>
