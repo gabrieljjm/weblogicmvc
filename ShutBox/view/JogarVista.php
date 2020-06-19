@@ -104,33 +104,33 @@ $jogar = new JogarController();
         </div>
 
         <div class="col-xs-3">
-            <div class="score-current1" id="r11">
+            <button class="score-current1" id="r11">
                 <div class="price" id="p2c1">1</div>
-            </div>
-            <div class="score-current1" id="r12">
+            </button>
+            <button class="score-current1" id="r12">
                 <div class="price" id="p2c2">2</div>
-            </div>
-            <div class="score-current1" id="r13">
+            </button>
+            <button class="score-current1" id="r13">
                 <div class="price" id="p2c3">3</div>
-            </div>
-            <div class="score-current1" id="r14">
+            </button>
+            <button class="score-current1" id="r14">
                 <div class="price" id="p2c4">4</div>
-            </div>
-            <div class="score-current1" id="r15">
+            </button>
+            <button class="score-current1" id="r15">
                 <div class="price" id="p2c5">5</div>
-            </div>
-            <div class="score-current1" id="r16">
+            </button>
+            <button class="score-current1" id="r16">
                 <div class="price" id="p2c6">6</div>
-            </div>
-            <div class="score-current1" id="r17">
+            </button>
+            <button class="score-current1" id="r17">
                 <div class="price" id="p2c7">7</div>
-            </div>
-            <div class="score-current1" id="r18">
+            </button>
+            <button class="score-current1" id="r18">
                 <div class="price" id="p2c8">8</div>
-            </div>
-            <div class="score-current1" id="r19">
+            </button>
+            <button class="score-current1" id="r19">
                 <div class="price" id="p2c9">9</div>
-            </div>
+            </button>
         </div>
 
         <div class="col-xs-6">
@@ -206,9 +206,30 @@ $jogar = new JogarController();
 
                             $somadados = $dado1+$dado2;
                             echo "<br>";
-                            echo $somadados;
 
                             switch ($somadados){
+                                case 2:
+                                    echo '<script type="text/JavaScript">  
+                                    document.getElementById("r3").disabled = true;
+                                    document.getElementById("r4").disabled = true;
+                                    document.getElementById("r5").disabled = true;
+                                    document.getElementById("r6").disabled = true;
+                                    document.getElementById("r7").disabled = true;
+                                    document.getElementById("r8").disabled = true;
+                                    document.getElementById("r9").disabled = true;
+                                 </script>';
+                                    break;
+                                case 3:
+                                    echo '<script type="text/JavaScript">  
+                                    document.getElementById("r4").disabled = true;
+                                    document.getElementById("r5").disabled = true;
+                                    document.getElementById("r6").disabled = true;
+                                    document.getElementById("r7").disabled = true;
+                                    document.getElementById("r8").disabled = true;
+                                    document.getElementById("r9").disabled = true;
+                                 </script>';
+                                    break;
+
                                 case 4:
                                     echo '<script type="text/JavaScript">  
                                     document.getElementById("r5").disabled = true;
@@ -218,10 +239,38 @@ $jogar = new JogarController();
                                     document.getElementById("r9").disabled = true;
                                  </script>';
                                     break;
+
+                                case 5:
+                                    echo '<script type="text/JavaScript">  
+                                    document.getElementById("r6").disabled = true;
+                                    document.getElementById("r7").disabled = true;
+                                    document.getElementById("r8").disabled = true;
+                                    document.getElementById("r9").disabled = true;
+                                 </script>';
+                                    break;
+
+                                case 6:
+                                    echo '<script type="text/JavaScript">  
+                                    document.getElementById("r7").disabled = true;
+                                    document.getElementById("r8").disabled = true;
+                                    document.getElementById("r9").disabled = true;
+                                 </script>';
+                                    break;
+                                case 7:
+                                    echo '<script type="text/JavaScript">  
+                                    document.getElementById("r8").disabled = true;
+                                    document.getElementById("r9").disabled = true;
+                                 </script>';
+                                    break;
+
+                                case 8:
+                                    echo '<script type="text/JavaScript">  
+                                    document.getElementById("r9").disabled = true;
+                                 </script>';
+                                    break;
+                                case 9:
+                                    default;
                             }
-
-                            
-
                         }
 
 

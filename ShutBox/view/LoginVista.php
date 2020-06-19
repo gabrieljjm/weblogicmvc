@@ -36,14 +36,7 @@
     </div>
 </div>
 
-<?php
-    foreach ($users as $u){
-        echo "<tr>";
-        echo "<td>".$users['nome']."</td>";
-        echo "<td>".$users['pass']."</td>";
-        echo "<tr>";
-    }
-?>
+
 
 </body>
 </html>
