@@ -22,6 +22,8 @@ Router::post('home/login','MainController/authenticate');
 Router::get('home/logout','MainController/logout');
 
 Router::get('game/menu','GameController/menu');
+Router::get('game/startgame','GameController/startgame');
+Router::get('game/game','GameController/game');
 
 /*
 Router::resource('book', 'BookController');

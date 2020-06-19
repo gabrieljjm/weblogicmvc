@@ -19,6 +19,25 @@ class GameController extends BaseController
         Redirect::flashToRoute('home.login', ['msg' => "", 'user' => null]);
     }
 
+    public function game(){
+        try {
+            $name = Session::get('name');
+            $pwd = Session::get('pwd');
+            $user = User::find_by_name($name);
+            if ($this->check($user, $pwd)){
+                if (isset($_POST['game'])){
+                    $game = $_POST['game'];
+                    return View::make('game.game', ['user' => $user, 'game' => $game]);
+                }else{
+                    $game = "a";
+                    return View::make('game.game', ['user' => $user, 'game' => $game]);
+                }
+            }
+        }catch (Exception $e){}
+
+        Redirect::flashToRoute('home.login', ['msg' => "", 'user' => null]);
+    }
+
     public function indexhead(){
         try {
             $name = Session::get('name');
