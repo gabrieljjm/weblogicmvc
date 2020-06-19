@@ -1,7 +1,6 @@
 <?php use ArmoredCore\WebObjects\Layout;
 use ArmoredCore\WebObjects\Data;
-
-Layout::includeLayout('header') ?>
+?>
 <?php $msg = Data::get('msg') ?>
 
     <form class="form-signin" method="post">
@@ -13,5 +12,3 @@ Layout::includeLayout('header') ?>
         <button class="btn btn-lg btn-dark btn-block" name="btlogin" type="submit">Entrar</button>
         <button class="btn btn-lg btn-outline-dark btn-block" type="submit">Registar Novo</button>
     </form>
-
-<?php Layout::includeLayout('footer') ?>
