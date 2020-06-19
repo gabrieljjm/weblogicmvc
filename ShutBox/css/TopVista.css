@@ -3,6 +3,10 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+html {
+    background-color: #56baed;
+}
+
 .topnav {
     margin: 0;
     overflow: hidden;

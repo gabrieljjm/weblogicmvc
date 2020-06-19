@@ -1,7 +1,15 @@
+<?php
+include_once ("../controller/JogarController.php");
+$jogar = new JogarController();
+
+
+?>
+
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="../css/JogoVista.css">
+
     <style>
 
     </style>
@@ -82,9 +90,80 @@
 
         <div class="col-xs-6">
             <div class="row">
-                <div class="col-xs-12">
-                    <input id="dicebutton" value="Roll Dice" type="button" class="btn btn-md btn-primary center-block">
-                </div>
+                <center>
+                    <div class="col-xs-12">
+                        <form method="POST">
+                            <input type="submit" id="dicebutton" name="dicebutton" value="Lançar dados" class="button buttonLancar" >
+                        </form>
+                        <!-- TESTE -->
+                        <br>
+                        <?php
+                        function lancarDados()
+                        {
+
+                            $dado1 = rand(1, 6) . "";
+                            $dado2 = rand(1, 6) . "";
+
+                            if($dado1 == 1){
+                                echo "<img src=\"../imagens/1.PNG\"/>";
+                            }
+                            if($dado1 == 2){
+
+                                echo "<img src=\"../imagens/2.PNG\"/>";
+                            }
+                            if($dado1 == 3){
+
+                                echo "<img src=\"../imagens/3.PNG\"/>";
+                            }
+                            if($dado1 == 4){
+
+                                echo "<img src=\"../imagens/4.PNG\"/>";
+                            }
+                            if($dado1 == 5){
+
+                                echo "<img src=\"../imagens/5.PNG\"/>";
+                            }
+                            if($dado1 == 6){
+
+                                echo "<img src=\"../imagens/6.PNG\"/>";
+                            }
+
+                            echo "<br>";
+                            echo "<br>";
+
+
+                            if($dado2 == 1){
+
+                                echo "<img src=\"../imagens/1.PNG\"/>";
+                            }
+                            if($dado2 == 2){
+
+                                echo "<img src=\"../imagens/2.PNG\"/>";
+                            }
+                            if($dado2 == 3){
+
+                                echo "<img src=\"../imagens/3.PNG\"/>";
+                            }
+                            if($dado2 == 4){
+
+                                echo "<img src=\"../imagens/4.PNG\"/>";
+                            }
+                            if($dado2 == 5){
+
+                                echo "<img src=\"../imagens/5.PNG\"/>";
+                            }
+                            if($dado2 == 6){
+
+                                echo "<img src=\"../imagens/6.PNG\"/>";
+                            }
+                        }
+
+                        if(array_key_exists('dicebutton',$_POST)){
+                            lancarDados();
+                        }
+                        ?>
+                    </div>
+                </center>
             </div>
         </div>
     </div>
@@ -93,3 +172,7 @@
 
 </body>
 </html>
+
+
+
+
