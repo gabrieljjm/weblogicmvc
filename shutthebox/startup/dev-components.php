@@ -66,10 +66,10 @@ if(isset($GLOBALS['cachedPage'])){
     Debugger::getBar()->addPanel($profiler);
 
 
-$conn = Book::connection();
+$conn = User::connection();
 Use Filisko\PDOplus\PDO;
 
-$pdoconn = new PDO('mysql:host=localhost;dbname=stb_db', 'root', '', array(PDO::ATTR_PERSISTENT => true));
+$pdoconn = new PDO('mysql:host=localhost;dbname=stb_bd', 'root', '', array(PDO::ATTR_PERSISTENT => true));
 
 $db1Panel = new \Filisko\PDOplus\Tracy\BarPanel( $conn->connection );
 $db1Panel->title = "DB SQL";

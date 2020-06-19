@@ -42,7 +42,7 @@ require ( 'ORM-bootstrap.php' );
 require ( 'TemplateEngine-Bootstrap.php' );
 
 // Startup the developers debug components
-//require ('dev-components.php');
+require ('dev-components.php');
 
 use \Netpromotion\Profiler\Profiler;
 Profiler::start('WL: Bootstrapping Armored Core');

@@ -5,8 +5,20 @@ use ArmoredCore\WebObjects\Session;
 use ArmoredCore\WebObjects\View;
 use ArmoredCore\WebObjects\Post;
 
-class MainController extends BaseController
+class GameController extends BaseController
 {
+    public function menu(){
+        try {
+            $name = Session::get('name');
+            $pwd = Session::get('pwd');
+            $user = User::find_by_name($name);
+            if ($this->check($user, $pwd)){
+                return View::make('game.menu', ['user' => $user]);
+            }
+        }catch (Exception $e){}
+        Redirect::flashToRoute('home.login', ['msg' => "", 'user' => null]);
+    }
+
     public function indexhead(){
         try {
             $name = Session::get('name');

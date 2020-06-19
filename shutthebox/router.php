@@ -12,34 +12,18 @@ use ArmoredCore\Facades\Router;
  *  Use convention: controllerName@methodActionName
  ****************************************************************************/
 
-
-Router::get('/','MainController/index');
-Router::get('home/','MainController/index');
+Router::get('/','MainController/indexhead');
+Router::get('home/','MainController/indexhead');
 Router::get('home/inicio','MainController/index');
 
-Router::get('/login','MainController/login');
 Router::get('home/login','MainController/login');
-Router::post('home/login','MainController/authentication');
+Router::post('home/login','MainController/authenticate');
 
+Router::get('home/logout','MainController/logout');
+
+Router::get('game/menu','GameController/menu');
 
 /*
-Router::get('plano/index','PlanoController/index');
-Router::post('plano/show','PlanoController/show');
-
-Router::get('home/start','HomeController/start');
-Router::get('home/login','HomeController/login');
-Router::get('home/worksheet','HomeController/worksheet');
-
-Router::get('home/setsession','HomeController/setsession');
-Router::get('home/showsession','HomeController/showsession');
-Router::get('home/destroysession','HomeController/destroysession');
-
-Router::get('devtools/restcontrollerform','DevToolsController/RESTControllerForm');
-Router::get('devtools/accomponents','DevToolsController/accomponents');
-Router::get('devtools/inspect','DevToolsController/inspect');
-
-Router::get('F1/index','F1Controller/index');
-
 Router::resource('book', 'BookController');
 */
 

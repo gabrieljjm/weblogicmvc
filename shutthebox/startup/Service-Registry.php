@@ -13,6 +13,7 @@ use ArmoredCore\WebKernel\Services;
 
 $assetBundles = [
     'base' => [
+        Asset::js ( 'jquery-3.5.1.min.js' ),
         Asset::js ( 'bootstrap.min.js' ),
         Asset::css ( 'bootstrap.min.css' ) ,
         Asset::css ( 'stickyfooter.css' ) ,

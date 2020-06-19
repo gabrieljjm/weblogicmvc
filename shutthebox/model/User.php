@@ -8,10 +8,5 @@
  */
 class User extends \ActiveRecord\Model
 {
-    static $validates_presence_of = array(
-        array('name'),
-        array('isbn', 'message' => 'YooaaH it must be provided')
-    );
-
 
 }
