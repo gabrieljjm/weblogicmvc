@@ -56,6 +56,13 @@ use ArmoredCore\WebObjects\Data;
                         <a class="nav-link" href="<?= Url::toRoute('home/logout')?>">Sair</a>
                     </li>
                     <?php
+                    if ($user->admin == 1){
+                        ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= Url::toRoute('backoffice/lista')?>">Backoffice</a>
+                        </li>
+                        <?php
+                    }
                 }
                 ?>
             </ul>

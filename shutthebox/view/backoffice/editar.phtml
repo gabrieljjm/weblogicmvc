@@ -1,0 +1,26 @@
+<?php use ArmoredCore\WebObjects\Data;
+use ArmoredCore\WebObjects\ErrMgr;
+use ArmoredCore\WebObjects\Layout;
+use ArmoredCore\WebObjects\URL;
+
+Layout::includeLayout('header') ?>
+<?php $user = Data::get('useredit') ?>
+<?php ErrMgr::attach($user) ?>
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <form class="form-signin" method="post" action="<?=Url::toRoute('backoffice/update', $user->id)?>">
+            <h1 class="h3 mb-3 font-weight-normal">Altere o nome</h1>
+            <input type="number" readonly value="<?=$user->id?>" name="id" class="form-control" placeholder="Nome" required>
+            <?= ErrMgr::bind('id') ?>
+            <input type="text" value="<?=$user->name?>" name="name" class="form-control" placeholder="Nome" required autofocus>
+            <?= ErrMgr::bind('name') ?>
+            <input type="password" readonly value="<?=$user->name?>" name="pwd" class="form-control" placeholder="Nome" required>
+            <?= ErrMgr::bind('pwd') ?>
+            <button class="btn btn-lg btn-dark btn-block" type="submit">Guardar</button>
+        </form>
+    </div>
+</div>
+
+<?php Layout::includeLayout('footer') ?>

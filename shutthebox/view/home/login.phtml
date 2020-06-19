@@ -1,11 +1,11 @@
 <?php use ArmoredCore\WebObjects\Layout;
+use ArmoredCore\WebObjects\ErrMgr;
 use ArmoredCore\WebObjects\Data;
 
 Layout::includeLayout('header') ?>
 <?php $msg = Data::get('msg') ?>
 
     <form class="form-signin" method="post">
-        <img class="mb-4" src="" alt="" width="72" height="72">
         <h1 class="h3 mb-3 font-weight-normal">Por favor inicie sessão</h1>
         <input type="text" name="name" class="form-control" placeholder="Nome" required autofocus>
         <input type="password" name="pwd" class="form-control" placeholder="Palavra-Passe" required>

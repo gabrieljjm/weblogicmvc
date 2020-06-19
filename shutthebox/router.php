@@ -19,11 +19,15 @@ Router::get('home/inicio','MainController/index');
 Router::get('home/login','MainController/login');
 Router::post('home/login','MainController/authenticate');
 
+Router::get('home/perfil','MainController/perfil');
+Router::post('home/perfil','MainController/update');
+
 Router::get('home/logout','MainController/logout');
 
 Router::get('game/menu','GameController/menu');
-Router::get('game/startgame','GameController/startgame');
 Router::get('game/game','GameController/game');
+
+Router::resource('backoffice', 'UserController');
 
 /*
 Router::resource('book', 'BookController');

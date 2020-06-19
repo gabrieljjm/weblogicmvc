@@ -29,6 +29,10 @@ class MainController extends BaseController
                 return View::make('home.inicio', ['user' => $user]);
             }
         }catch (Exception $e){}
+        try {
+            Session::remove('name');
+            Session::remove('pwd');
+        }catch (Exception $e){}
         return View::make('home.inicio', ['user' => null]);
     }
 
@@ -39,6 +43,44 @@ class MainController extends BaseController
             $user = User::find_by_name($name);
             if ($this->check($user, $pwd)){
                 Redirect::flashToRoute('home/inicio', ['user' => $user]);
+            }
+        }catch (Exception $e){}
+        return View::make('home.login', ['msg' => "", 'user' => null]);
+    }
+
+    public function update()
+    {
+        try {
+            $id = $_POST['id'];
+            $name = Session::get('name');
+            $pwd = Session::get('pwd');
+            $user = User::find_by_name($name);
+            if ($this->check($user, $pwd)){
+                if ($id == $user->id){
+                    Session::set('name', $name);
+                    Session::set('pwd', $pwd);
+                }
+                $useredit = User::find($id);
+                $useredit->update_attributes(Post::getAll());
+                if($useredit->is_valid()){
+                    $useredit->save();
+                    Redirect::toRoute('home/perfil');
+                }
+            }
+        }catch (Exception $e){
+            Redirect::flashToRoute('home/inicio', ['user' => null]);
+        }
+    }
+
+    public function perfil(){
+        try {
+            $name = Session::get('name');
+            $pwd = Session::get('pwd');
+            $user = User::find_by_name($name);
+            if ($this->check($user, $pwd)){
+                $matches = Match::first();
+                //Redirect::flashToRoute('home/inicio', ['user' => $user]);
+                return View::make('home.perfil', ['user' => $user, 'matches' => $matches]);
             }
         }catch (Exception $e){}
         return View::make('home.login', ['msg' => "", 'user' => null]);
