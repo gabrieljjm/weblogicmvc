@@ -29,33 +29,78 @@ $jogar = new JogarController();
 <div class="col-xs-12 col-sm-6 col-md-4 col-md-offset-2">
     <div class="game-container center-block">
         <div class="col-xs-2">
-            <div class="score-current " id="r1">
-                <div class="price" id="rectangle">1</div>
-            </div>
-            <div class="score-current" id="r2">
-                <div class="price" id="rectangle">2</div>
-            </div>
-            <div class="score-current" id="r3">
-                <div class="price" id="rectangle">3</div>
-            </div>
-            <div class="score-current" id="r4">
-                <div class="price" id="rectangle">4</div>
-            </div>
-            <div class="score-current" id="r5">
-                <div class="price" id="rectangle">5</div>
-            </div>
-            <div class="score-current" id="r6">
-                <div class="price" id="rectangle">6</div>
-            </div>
-            <div class="score-current" id="r7">
-                <div class="price" id="rectangle">7</div>
-            </div>
-            <div class="score-current" id="r8">
-                <div class="price" id="rectangle">8</div>
-            </div>
-            <div class="score-current" id="r9">
-                <div class="price" id="rectangle">9</div>
-            </div>
+            <form method="post">
+                <button class="score-current" name="bt1" id="r1">
+                    <div class="price" id="p1c1">1</div>
+                    <?php
+                    $bt1 = 1;
+                    ?>
+                </button>
+            </form>
+            <form method="post">
+            <button class="score-current" name="bt2" id="r2">
+                <div class="price" id="p1c2">2</div>
+                <?php
+                $bt2 = 2;
+                ?>
+            </button>
+            </form>
+            <form method="post">
+            <button class="score-current" name="bt3" id="r3">
+                <div class="price" id="p1c3">3</div>
+                <?php
+                $bt3 = 3;
+                ?>
+            </button>
+            </form>
+            <form method="post">
+            <button class="score-current" name="bt4" id="r4">
+                <div class="price" id="p1c4">4</div>
+                <?php
+                $bt1 = 4;
+                ?>
+            </button>
+            </form>
+            <form method="post">
+            <button class="score-current" name="bt5" id="r5">
+                <div class="price" id="p1c5">5</div>
+                <?php
+                $bt5 = 5;
+                ?>
+            </button>
+            </form>
+            <form method="post">
+            <button class="score-current" name="bt6" id="r6">
+                <div class="price" id="p1c6">6</div>
+                <?php
+                $bt6 = 6;
+                ?>
+            </button>
+            </form>
+            <form method="post">
+            <button class="score-current" name="bt7" id="r7">
+                <div class="price" id="p1c7">7</div>
+                <?php
+                $bt7 = 7;
+                ?>
+            </button>
+            </form>
+            <form method="post">
+            <button class="score-current" name="bt8" id="r8">
+                <div class="price" id="p1c8">8</div>
+                <?php
+                $bt8 = 8;
+                ?>
+            </button>
+            </form>
+            <form method="post">
+            <button class="score-current" name="bt9" id="r9">
+                <div class="price" id="p1c9">9</div>
+                <?php
+                $bt9 = 9;
+                ?>
+            </button>
+            </form>
         </div>
 
         <div class="col-xs-3">
@@ -98,6 +143,9 @@ $jogar = new JogarController();
                         <!-- TESTE -->
                         <br>
                         <?php
+
+
+
                         function lancarDados()
                         {
 
@@ -131,7 +179,6 @@ $jogar = new JogarController();
                             echo "<br>";
                             echo "<br>";
 
-
                             if($dado2 == 1){
 
                                 echo "<img src=\"../imagens/1.PNG\"/>";
@@ -156,7 +203,27 @@ $jogar = new JogarController();
 
                                 echo "<img src=\"../imagens/6.PNG\"/>";
                             }
+
+                            $somadados = $dado1+$dado2;
+                            echo "<br>";
+                            echo $somadados;
+
+                            switch ($somadados){
+                                case 4:
+                                    echo '<script type="text/JavaScript">  
+                                    document.getElementById("r5").disabled = true;
+                                    document.getElementById("r6").disabled = true;
+                                    document.getElementById("r7").disabled = true;
+                                    document.getElementById("r8").disabled = true;
+                                    document.getElementById("r9").disabled = true;
+                                 </script>';
+                                    break;
+                            }
+
+                            
+
                         }
+
 
                         if(array_key_exists('dicebutton',$_POST)){
                             lancarDados();
