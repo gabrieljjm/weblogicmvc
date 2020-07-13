@@ -9,9 +9,9 @@ class MainController extends BaseController
 {
     public function indexhead(){
         try {
-            $email = Session::get('email');
+            $username = Session::get('username');
             $pwd = Session::get('pwd');
-            $user = User::find_by_email($email);
+            $user = User::find_by_username($username);
             if ($this->check($user, $pwd)){
                 Redirect::flashToRoute('home/inicio', ['userlayout' => $user]);
             }
@@ -22,9 +22,9 @@ class MainController extends BaseController
 
     public function index(){
         try {
-            $email = Session::get('email');
+            $username = Session::get('username');
             $pwd = Session::get('pwd');
-            $user = User::find_by_email($email);
+            $user = User::find_by_username($username);
             if ($this->check($user, $pwd)){
                 return View::make('home.inicio', ['userlayout' => $user]);
             }

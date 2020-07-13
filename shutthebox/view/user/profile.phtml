@@ -1,17 +1,18 @@
 <?php use ArmoredCore\WebObjects\Data;
 use ArmoredCore\WebObjects\Layout;
+use ArmoredCore\WebObjects\URL;
 Layout::includeLayout('header');
 $user = Data::get('userlayout');
 $scores = Data::get('scores'); ?>
 
     <div class="form-signin">
-        <h1 class="h3 mb-3 font-weight-normal">Altere o nome</h1>
-        <input type="number" readonly value="<?=$user->id?>" name="id" class="form-control">
+        <h1 class="h3 mb-3 font-weight-normal">Perfil</h1>
         <input type="text" readonly value="<?=$user->fullname?>" name="fullname" class="form-control">
         <input type="email" readonly value="<?=$user->email?>" name="email" class="form-control">
         <input type="text" readonly value="<?=$user->username?>" name="username" class="form-control">
         <input type="password" readonly value="<?=$user->pwd?>" name="pwd" class="form-control">
         <input type="date" readonly name="birthday" class="form-control">
+        <a class="btn btn-secondary btn-light btn-outline-dark btn-block" href="<?= URL::toRoute('user/edit')?>">Editar</a>
     </div>
     <div class="container">
         <table class="table table-sm table-striped">

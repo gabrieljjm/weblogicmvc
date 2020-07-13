@@ -1,43 +1,19 @@
 <?php use ArmoredCore\WebObjects\Data;
-use ArmoredCore\WebObjects\ErrMgr;
 use ArmoredCore\WebObjects\Layout;
 use ArmoredCore\WebObjects\URL;
+Layout::includeLayout('header');
+$user = Data::get('user');
+$msg = Data::get('msg'); ?>
 
-Layout::includeLayout('header') ?>
-<?php $user = Data::get('user') ?>
-<?php ErrMgr::attach($user) ?>
-<?php $matches = Data::get('$matches') ?>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <form class="form-signin" method="post">
-                <h1 class="h3 mb-3 font-weight-normal">Altere o nome</h1>
-                <input type="number" readonly value="<?=$user->id?>" name="id" class="form-control" placeholder="Nome" required>
-                <?= ErrMgr::bind('id') ?>
-                <input type="text" value="<?=$user->name?>" name="name" class="form-control" placeholder="Nome" required autofocus>
-                <?= ErrMgr::bind('name') ?>
-                <input type="password" readonly value="<?=$user->name?>" name="pwd" class="form-control" placeholder="Nome" required>
-                <?= ErrMgr::bind('pwd') ?>
-                <button class="btn btn-lg btn-dark btn-block" type="submit">Guardar<?= $matches->id?></button>
-            </form>
-        </div>
-        <div class="col-sm-12">
-            <table class="table table-striped">
-                <thead>
-                <th><h3>Id</h3></th>
-                <th><h3>Data</h3></th>
-                <th><h3>Pontos</h3></th>
-                <th><h3>Resultado</h3></th>
-                </thead>
-                <tbody>
-                <?php
-                echo $matches->id;/*
-                foreach ($matches as $matchlist) {
-                    echo $matchlist->id;
-                }*/?>
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <form class="form-signin" method="post" action="<?= Url::toRoute('user/edit') ?>">
+        <h1 class="h3 mb-3 font-weight-normal">Editar</h1>
+        <input type="text" value="<?=$user->fullname?>" name="fullname" class="form-control" placeholder="Nome Completo" required autofocus>
+        <input type="email" value="<?=$user->email?>" name="email" class="form-control" placeholder="Email" required>
+        <input type="password" value="<?=$user->pwd?>" name="pwd" class="form-control" placeholder="Palavra-Passe" required>
+        <input type="date" name="birthday" class="form-control">
+        <p><?=$msg?></p>
+        <button class="btn btn-lg btn-dark btn-block" type="submit">Guardar</button>
+    </form>
 
 <?php Layout::includeLayout('footer') ?>

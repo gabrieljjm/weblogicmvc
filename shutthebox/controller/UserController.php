@@ -6,7 +6,7 @@ use ArmoredCore\WebObjects\View;
 use ArmoredCore\WebObjects\Session;
 use ArmoredCore\Interfaces\ResourceControllerInterface;
 
-class UserController extends BaseController implements ResourceControllerInterface {
+class UserController extends BaseController {
 
     public function create()
     {
@@ -18,29 +18,29 @@ class UserController extends BaseController implements ResourceControllerInterfa
                 Session::remove('pwd');
             }catch (Exception $exception){}
         }
-
         // create new resource (activerecord/model) instance
         // your form name fields must match the ones of the table fields
-        $user = new User(Post::getAll());
-
-        if (!strcmp($user->username,"")){
-            View::make('user.create', ['userlayout' => null, 'msg' => ""]);
-        }elseif (!User::find('first',array('username' => $user->username))){
-            if (!User::find('first',array('email' => $user->email))){
-                if($user->is_valid()){
-                    $user->save();
-                    Redirect::toRoute('user/login');
+        if (!Post::has('email')){
+            return View::make('user.create', ['userlayout' => null, 'msg' => ""]);
+        }else{
+            $user = new User(Post::getAll());
+            if (!User::find('first',array('username' => $user->username))){
+                if (!User::find('first',array('username' => $user->email))){
+                    if ($user->is_valid()){
+                        $user->save();
+                        return Redirect::toRoute('user/login');
+                    }else{
+                        $msg = "Utilizador Inválido!";
+                        return View::make('user.create', ['user' => $user, 'userlayout' => null, 'msg' => $msg]);
+                    }
                 }else{
-                    $msg = "Utilizador inválido!!";
-                    View::make('user.create', ['user' => $user, 'userlayout' => null, 'msg' => $msg]);
+                    $msg = "Email já foi usado!";
+                    return View::make('user.create', ['user' => $user, 'userlayout' => null, 'msg' => $msg]);
                 }
-            }else{
-                $msg = "Email já foi usado!";
-                View::make('user.create', ['user' => $user, 'userlayout' => null, 'msg' => $msg]);
+            } else {
+                $msg = "Nome de utilizador já foi usado!";
+                return View::make('user.create', ['user' => $user, 'userlayout' => null, 'msg' => $msg]);
             }
-        } else {
-            $msg = "Nome de utilizador já foi usado!";
-            View::make('user.create', ['user' => $user, 'userlayout' => null, 'msg' => $msg]);
         }
     }
 
@@ -50,48 +50,48 @@ class UserController extends BaseController implements ResourceControllerInterfa
             Redirect::toRoute('home/inicio');
         }else{
             try {
-                Session::remove('email');
+                Session::remove('username');
                 Session::remove('pwd');
             }catch (Exception $exception){}
         }
-        $user = new User(Post::getAll());
-        if (!strcmp($user->email,"")){
-            View::make('user.login', ['userlayout' => null, 'msg' => ""]);
+        if (!Post::has('username')){
+            return View::make('user.login', ['userlayout' => null, 'msg' => ""]);
         }else{
-            $usercompare = User::find_by_email($user->email);
+            $user = new User(Post::getAll());
+            $usercompare = User::find_by_username($user->username);
             if ((is_null($usercompare))){
-                $msg = "Email não registado!";
-                View::make('user.login', ['user' => $user, 'userlayout' => null, 'msg' => $msg]);
+                $msg = "Utilizador não registado!";
+                return View::make('user.login', ['user' => $user, 'userlayout' => null, 'msg' => $msg]);
             }elseif (strcmp($usercompare->pwd, $user->pwd) != 0){
                 $msg = "Palavra-Passe errada!";
-                View::make('user.login', ['user' => $user, 'userlayout' => null, 'msg' => $msg]);
+                return View::make('user.login', ['user' => $user, 'userlayout' => null, 'msg' => $msg]);
             }elseif ($usercompare->admin == 1){
-                Session::set('email', $usercompare->email);
+                Session::set('username', $usercompare->username);
                 Session::set('pwd', $usercompare->pwd);
-                Redirect::toRoute('home/inicio');
+                return Redirect::toRoute('home/inicio');
             }elseif ($usercompare->banned == 1){
                 $msg = "Conta Banida!";
-                View::make('user.login', ['userlayout' => null, 'msg' => $msg]);
+                return View::make('user.login', ['userlayout' => null, 'msg' => $msg]);
             }else{
-                Session::set('email', $usercompare->email);
+                Session::set('username', $usercompare->username);
                 Session::set('pwd', $usercompare->pwd);
-                Redirect::toRoute('home/inicio');
+                return Redirect::toRoute('home/inicio');
             }
         }
     }
 
     public function logout()
     {
-        Session::remove('email');
+        Session::remove('username');
         Session::remove('pwd');
-        Redirect::toRoute('user/login');
+        return Redirect::toRoute('user/login');
     }
 
     public function check(){
         try {
-            $email = Session::get('email');
+            $username = Session::get('username');
             $pwd = Session::get('pwd');
-            $user = User::find_by_email($email);
+            $user = User::find_by_username($username);
             if ((is_null($user))){
                 return false;
             }elseif (strcmp($user->pwd, $pwd) != 0){
@@ -110,15 +110,117 @@ class UserController extends BaseController implements ResourceControllerInterfa
     public function profile(){
         if (!$this->check()) {
             try {
-                Session::remove('email');
+                Session::remove('username');
                 Session::remove('pwd');
-                Redirect::toRoute('user/login');
             } catch (Exception $exception) {}
+            return Redirect::toRoute('user/login');
         }
-        $email = Session::get('email');
-        $user = User::find_by_email($email);
-        $scores = Score::all();
-        View::make('user.profile', ['userlayout' => $user, 'scores' => $scores]);
+        $username = Session::get('username');
+        $user = User::find_by_username($username);
+        $scores = Score::all(array('conditions' => array('userid=?',$user->id), 'order' => 'matchdate desc'));
+        return View::make('user.profile', ['userlayout' => $user, 'scores' => $scores]);
+    }
+
+    public function edit()
+    {
+        if (!$this->check()) {
+            try {
+                Session::remove('username');
+                Session::remove('pwd');
+            } catch (Exception $exception) {}
+            return Redirect::toRoute('user/login');
+        }
+        if (!Post::has('email')){
+            $username = Session::get('username');
+            $user = User::find_by_username($username);
+            return View::make('user.edit', ['userlayout' => $user, 'user' => $user, 'msg' => ""]);
+        }else{
+            $username = Session::get('username');
+            $usercompare = User::find_by_username($username);
+            $user = new User(Post::getAll());
+            $emails = User::count(array('conditions' => array('email = ? AND username <> ?', $user->email, $username)));
+            if ($emails == 0){
+                $usercompare->update_attributes(Post::getAll());
+                if($usercompare->is_valid()){
+                    $usercompare->save();
+                    Session::set('pwd', $usercompare->pwd);
+                    return Redirect::toRoute('user/profile');
+                } else {
+                    // return form with data and errors
+                    $msg = "Utilizador inválido!";
+                    return View::make('user.edit', ['user' => $user, 'userlayout' => $usercompare, 'msg' => $msg]);
+                }
+            }else{
+                $msg = "Email já foi registado noutra conta!";
+                return View::make('user.edit', ['user' => $user, 'userlayout' => $usercompare, 'msg' => $msg]);
+            }
+        }
+        /*
+        $user = new User(Post::getAll());
+        if (!strcmp($user->username,"")){
+            View::make('user.login', ['userlayout' => null, 'msg' => ""]);
+        }else{
+            $usercompare = User::find_by_username($user->username);
+            if ((is_null($usercompare))){
+                $msg = "Utilizador não registado!";
+                View::make('user.login', ['user' => $user, 'userlayout' => null, 'msg' => $msg]);
+            }elseif (strcmp($usercompare->pwd, $user->pwd) != 0){
+                $msg = "Palavra-Passe errada!";
+                View::make('user.login', ['user' => $user, 'userlayout' => null, 'msg' => $msg]);
+            }elseif ($usercompare->admin == 1){
+                Session::set('username', $usercompare->username);
+                Session::set('pwd', $usercompare->pwd);
+                Redirect::toRoute('home/inicio');
+            }elseif ($usercompare->banned == 1){
+                $msg = "Conta Banida!";
+                View::make('user.login', ['userlayout' => null, 'msg' => $msg]);
+            }else{
+                Session::set('username', $usercompare->username);
+                Session::set('pwd', $usercompare->pwd);
+                Redirect::toRoute('home/inicio');
+            }
+        }
+
+
+
+        try {
+            $name = Session::get('name');
+            $pwd = Session::get('pwd');
+            $user = User::find_by_name($name);
+            if ($this->check($user, $pwd)){
+                $useredit = User::find($id);
+                if (is_null($useredit)) {
+                    Redirect::toRoute('backoffice/lista');
+                } else {
+                    View::make('backoffice/editar', ['user' => $user, 'useredit' => $useredit]);
+                }
+            }
+        }catch (Exception $e){
+            Redirect::flashToRoute('home/inicio', ['user' => null]);
+        }*/
+        /*
+        try {
+            $name = Session::get('name');
+            $pwd = Session::get('pwd');
+            $user = User::find_by_name($name);
+            if ($this->check($user, $pwd)){
+                if ($id == $user->id){
+                    Session::set('name', $name);
+                    Session::set('pwd', $pwd);
+                }
+                $useredit = User::find($id);
+                $useredit->update_attributes(Post::getAll());
+                if($useredit->is_valid()){
+                    $useredit->save();
+                    Redirect::toRoute('backoffice/lista');
+                } else {
+                    // return form with data and errors
+                    Redirect::flashToRoute('backoffice/editar', ['user' => $user, 'useredit' => $useredit], $id);
+                }
+            }
+        }catch (Exception $e){
+            Redirect::flashToRoute('home/inicio', ['user' => null]);
+        }*/
     }
 
     public function destroy($id)
@@ -163,24 +265,7 @@ class UserController extends BaseController implements ResourceControllerInterfa
         Redirect::toRoute('backoffice/lista');
     }
 
-    public function editar($id)
-    {
-        try {
-            $name = Session::get('name');
-            $pwd = Session::get('pwd');
-            $user = User::find_by_name($name);
-            if ($this->check($user, $pwd)){
-                $useredit = User::find($id);
-                if (is_null($useredit)) {
-                    Redirect::toRoute('backoffice/lista');
-                } else {
-                    View::make('backoffice/editar', ['user' => $user, 'useredit' => $useredit]);
-                }
-            }
-        }catch (Exception $e){
-            Redirect::flashToRoute('home/inicio', ['user' => null]);
-        }
-    }
+
 
     public function lista(){
         try {
@@ -230,12 +315,6 @@ class UserController extends BaseController implements ResourceControllerInterfa
     {
         // TODO: Implement index() method.
     }
-
-    public function edit($id)
-    {
-        // TODO: Implement index() method.
-    }
-
 
     public function show($id)
     {
