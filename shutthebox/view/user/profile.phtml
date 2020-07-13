@@ -1,38 +1,53 @@
 <?php use ArmoredCore\WebObjects\Data;
 use ArmoredCore\WebObjects\Layout;
 Layout::includeLayout('header');
-$user = Data::get('user');
-$matches = Data::get('$matches'); ?>
+$user = Data::get('userlayout');
+$scores = Data::get('scores'); ?>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="form-signin">
-                <h1 class="h3 mb-3 font-weight-normal">Altere o nome</h1>
-                <input type="number" readonly value="<?=$user->id?>" name="id" class="form-control">
-                <input type="text" readonly value="<?=$user->username?>" name="fullname" class="form-control">
-                <input type="email" readonly value="<?=$user->username?>" name="email" class="form-control">
-                <input type="text" readonly value="<?=$user->username?>" name="username" class="form-control">
-                <input type="password" readonly value="<?=$user->name?>" name="pwd" class="form-control">
-                <input type="date" readonly name="birthday" class="form-control">
-            </div>
-        </div>
-        <div class="col-sm-12">
-            <table class="table table-striped">
-                <thead>
-                <th><h3>Id</h3></th>
-                <th><h3>Data</h3></th>
-                <th><h3>Jogador A</h3></th>
-                <th><h3>Jogador B</h3></th>
-                <th><h3>Resultado</h3></th>
-                </thead>
-                <tbody>
+    <div class="form-signin">
+        <h1 class="h3 mb-3 font-weight-normal">Altere o nome</h1>
+        <input type="number" readonly value="<?=$user->id?>" name="id" class="form-control">
+        <input type="text" readonly value="<?=$user->fullname?>" name="fullname" class="form-control">
+        <input type="email" readonly value="<?=$user->email?>" name="email" class="form-control">
+        <input type="text" readonly value="<?=$user->username?>" name="username" class="form-control">
+        <input type="password" readonly value="<?=$user->pwd?>" name="pwd" class="form-control">
+        <input type="date" readonly name="birthday" class="form-control">
+    </div>
+    <div class="container">
+        <table class="table table-sm table-striped">
+            <thead>
+            <th><h6>Id</h6></th>
+            <th><h6>Data</h6></th>
+            <th><h6>Jogador A</h6></th>
+            <th><h6>Jogador B</h6></th>
+            <th><h6>Resultado</h6></th>
+            </thead>
+            <tbody>
+            <?php
+            if (!is_null($scores)){
+                foreach ($scores as $scorelist) {
+                ?>
+                    <tr>
+                        <td><?=$scorelist->id?></td>
+                        <td></td>
+                        <td><?=$scorelist->playera?></td>
+                        <td><?=$scorelist->playerb?></td>
+                        <?php
+                        if ($scorelist->playera < $scorelist->playerb){
+                            echo "<td>Ganhou</td>";
+                        }elseif ($scorelist->playera > $scorelist->playerb){
+                            echo "<td>Perdeu</td>";
+                        }else{
+                            echo "<td>Empate</td>";
+                        }
+                        ?>
+                    </tr>
                 <?php
-                foreach ($matches as $matchlist) {
-                    echo $matchlist->id;
-                }?>
-                </tbody>
-            </table>
-        </div>
+                }
+            }
+            ?>
+            </tbody>
+        </table>
     </div>
 
 <?php Layout::includeLayout('footer') ?>

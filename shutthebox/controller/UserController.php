@@ -117,7 +117,8 @@ class UserController extends BaseController implements ResourceControllerInterfa
         }
         $email = Session::get('email');
         $user = User::find_by_email($email);
-        View::make('home.perfil', ['userlayout' => $user]);
+        $scores = Score::all();
+        View::make('user.profile', ['userlayout' => $user, 'scores' => $scores]);
     }
 
     public function destroy($id)
