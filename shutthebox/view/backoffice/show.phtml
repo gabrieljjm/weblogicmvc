@@ -1,0 +1,68 @@
+<?php use ArmoredCore\WebObjects\Layout;
+use ArmoredCore\WebObjects\Data;
+use ArmoredCore\Facades\AssetBundler;
+use ArmoredCore\WebObjects\URL;
+Layout::includeLayout('header');
+$users = Data::get('users');
+$user = Data::get('userlayout'); ?>
+
+    <div class="d-flex justify-content-center">
+        <div class="p-2">
+            <table class="table table-sm table-responsive table-striped">
+                <thead>
+                <th><h6>Id</h6></th>
+                <th><h6>Nome</h6></th>
+                <th><h6>Email</h6></th>
+                <th><h6>Username</h6></th>
+                <th><h6>Banido</h6></th>
+                <th><h6>Admin</h6></th>
+                </thead>
+                <tbody>
+                <?php foreach ($users as $userlist) {
+                    if (strcmp($userlist->username, $user->username)){
+                        ?>
+                        <tr>
+                            <td><?=$userlist->id?></td>
+                            <td><?=$userlist->fullname?></td>
+                            <td><?=$userlist->email?></td>
+                            <td><?=$userlist->username?></td>
+                            <td>
+                                <?php
+                                if ($userlist->banned==1){
+                                    ?>
+                                    <a href="<?=Url::toRoute('backoffice/ban', $userlist->id)?>" class="btn btn-lg btn-dark btn-block">X</a>
+                                    <?php
+                                }else{
+                                    ?>
+                                    <a href="<?=Url::toRoute('backoffice/ban', $userlist->id)?>" class="btn btn-lg btn-outline-dark btn-light btn-block">O</a>
+                                <?php
+                                }
+                                ?>
+                            </td>
+                            <td>
+                                <?php
+                                if ($userlist->admin==1){
+                                    ?>
+                                    <a href="<?=Url::toRoute('backoffice/admin', $userlist->id)?>" class="btn btn-lg btn-dark btn-block">X</a>
+                                <?php
+                                }else{
+                                    ?>
+                                    <a href="<?=Url::toRoute('backoffice/admin', $userlist->id)?>" class="btn btn-lg btn-outline-dark btn-light btn-block">O</a>
+                                <?php
+                                }
+                                ?>
+                            </td>
+                            <td>
+                                <a href="<?=Url::toRoute('backoffice/edit', $userlist->id)?>" class="btn btn-info" role="button">Editar</a>
+                                <a href="<?=Url::toRoute('backoffice/destroy', $userlist->id)?>" class="btn btn-warning" role="button">Eliminar</a>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                } ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+<?php Layout::includeLayout('footer') ?>

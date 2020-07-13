@@ -15,4 +15,6 @@ Router::get('game/game','GameController/game');
 
 Router::resource('user', 'UserController');
 
+Router::resource('backoffice', 'BackofficeController');
+
 /************** End of URLEncoder Routing Rules ************************************/
