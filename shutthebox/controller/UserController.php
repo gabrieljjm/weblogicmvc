@@ -11,7 +11,7 @@ class UserController extends BaseController {
     public function create()
     {
         if ($this->check()){
-            Redirect::toRoute('home/inicio');
+            Redirect::toRoute('home/menu');
         }else{
             try {
                 Session::remove('email');
@@ -47,7 +47,7 @@ class UserController extends BaseController {
     public function login()
     {
         if ($this->check()){
-            Redirect::toRoute('home/inicio');
+            Redirect::toRoute('home/menu');
         }else{
             try {
                 Session::remove('username');
@@ -68,14 +68,14 @@ class UserController extends BaseController {
             }elseif ($usercompare->admin == 1){
                 Session::set('username', $usercompare->username);
                 Session::set('pwd', $usercompare->pwd);
-                return Redirect::toRoute('home/inicio');
+                return Redirect::toRoute('home/menu');
             }elseif ($usercompare->banned == 1){
                 $msg = "Conta Banida!";
                 return View::make('user.login', ['userlayout' => null, 'msg' => $msg]);
             }else{
                 Session::set('username', $usercompare->username);
                 Session::set('pwd', $usercompare->pwd);
-                return Redirect::toRoute('home/inicio');
+                return Redirect::toRoute('home/menu');
             }
         }
     }
@@ -223,22 +223,28 @@ class UserController extends BaseController {
         }*/
     }
 
-    public function destroy($id)
+    public function destroy()
     {
-        try {
-            $name = Session::get('name');
-            $pwd = Session::get('pwd');
-            $user = User::find_by_name($name);
-            if ($this->check($user, $pwd)){
-                $useredit = User::find($id);
-                $useredit->delete();
-                Redirect::flashToRoute('backoffice/lista', ['user' => null]);
+        if (!$this->check()) {
+            try {
+                Session::remove('username');
+                Session::remove('pwd');
+            } catch (Exception $exception) {}
+            return Redirect::toRoute('user/login');
+        }else{
+            if (Post::has('yes')){
+                try {
+                    $username = Session::get('username');
+                    $user = User::find_by_username($username);
+                    $user->delete();
+                    return Redirect::toRoute('user/login');
+                }catch (Exception $e){
+                    return Redirect::toRoute('home/menu');
+                }
+            }else{
+                return Redirect::toRoute('home/menu');
             }
-        }catch (Exception $e){
-            Redirect::flashToRoute('home/inicio', ['user' => null]);
         }
-
-        Redirect::toRoute('backoffice/lista');
     }
 
     public function ban($id)

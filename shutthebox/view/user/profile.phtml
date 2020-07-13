@@ -12,7 +12,7 @@ $scores = Data::get('scores'); ?>
         <input type="text" readonly value="<?=$user->username?>" name="username" class="form-control">
         <input type="password" readonly value="<?=$user->pwd?>" name="pwd" class="form-control">
         <input type="date" readonly name="birthday" class="form-control">
-        <a class="btn btn-secondary btn-light btn-outline-dark btn-block" href="<?= URL::toRoute('user/edit')?>">Editar</a>
+        <a class="btn btn-lg btn-dark btn-block" href="<?= URL::toRoute('user/edit')?>">Editar</a>
     </div>
     <div class="container">
         <table class="table table-sm table-striped">
