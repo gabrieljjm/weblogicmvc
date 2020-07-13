@@ -1,13 +1,124 @@
 <?php
 use ArmoredCore\Controllers\BaseController;
-use ArmoredCore\WebObjects\Redirect;
-use ArmoredCore\WebObjects\Session;
-use ArmoredCore\WebObjects\View;
 use ArmoredCore\WebObjects\Post;
+use ArmoredCore\WebObjects\Redirect;
+use ArmoredCore\WebObjects\View;
+use ArmoredCore\WebObjects\Session;
 use ArmoredCore\Interfaces\ResourceControllerInterface;
 
-
 class UserController extends BaseController implements ResourceControllerInterface {
+
+    public function create()
+    {
+        if ($this->check()){
+            Redirect::toRoute('home/inicio');
+        }else{
+            try {
+                Session::remove('email');
+                Session::remove('pwd');
+            }catch (Exception $exception){}
+        }
+
+        // create new resource (activerecord/model) instance
+        // your form name fields must match the ones of the table fields
+        $user = new User(Post::getAll());
+
+        if (!strcmp($user->username,"")){
+            View::make('user.create', ['userlayout' => null, 'msg' => ""]);
+        }elseif (!User::find('first',array('username' => $user->username))){
+            if (!User::find('first',array('email' => $user->email))){
+                if($user->is_valid()){
+                    $user->save();
+                    Redirect::toRoute('user/login');
+                }else{
+                    $msg = "Utilizador inválido!!";
+                    View::make('user.create', ['user' => $user, 'userlayout' => null, 'msg' => $msg]);
+                }
+            }else{
+                $msg = "Email já foi usado!";
+                View::make('user.create', ['user' => $user, 'userlayout' => null, 'msg' => $msg]);
+            }
+        } else {
+            $msg = "Nome de utilizador já foi usado!";
+            View::make('user.create', ['user' => $user, 'userlayout' => null, 'msg' => $msg]);
+        }
+    }
+
+    public function login()
+    {
+        if ($this->check()){
+            Redirect::toRoute('home/inicio');
+        }else{
+            try {
+                Session::remove('email');
+                Session::remove('pwd');
+            }catch (Exception $exception){}
+        }
+        $user = new User(Post::getAll());
+        if (!strcmp($user->email,"")){
+            View::make('user.login', ['userlayout' => null, 'msg' => ""]);
+        }else{
+            $usercompare = User::find_by_email($user->email);
+            if ((is_null($usercompare))){
+                $msg = "Email não registado!";
+                View::make('user.login', ['user' => $user, 'userlayout' => null, 'msg' => $msg]);
+            }elseif (strcmp($usercompare->pwd, $user->pwd) != 0){
+                $msg = "Palavra-Passe errada!";
+                View::make('user.login', ['user' => $user, 'userlayout' => null, 'msg' => $msg]);
+            }elseif ($usercompare->admin == 1){
+                Session::set('email', $usercompare->email);
+                Session::set('pwd', $usercompare->pwd);
+                Redirect::toRoute('home/inicio');
+            }elseif ($usercompare->banned == 1){
+                $msg = "Conta Banida!";
+                View::make('user.login', ['userlayout' => null, 'msg' => $msg]);
+            }else{
+                Session::set('email', $usercompare->email);
+                Session::set('pwd', $usercompare->pwd);
+                Redirect::toRoute('home/inicio');
+            }
+        }
+    }
+
+    public function logout()
+    {
+        Session::remove('email');
+        Session::remove('pwd');
+        Redirect::toRoute('user/login');
+    }
+
+    public function check(){
+        try {
+            $email = Session::get('email');
+            $pwd = Session::get('pwd');
+            $user = User::find_by_email($email);
+            if ((is_null($user))){
+                return false;
+            }elseif (strcmp($user->pwd, $pwd) != 0){
+                return false;
+            }elseif ($user->admin == 1){
+                return true;
+            }elseif ($user->banned == 1){
+                return false;
+            }else{
+                return true;
+            }
+        }catch (Exception $exception){}
+        return false;
+    }
+
+    public function profile(){
+        if (!$this->check()) {
+            try {
+                Session::remove('email');
+                Session::remove('pwd');
+                Redirect::toRoute('user/login');
+            } catch (Exception $exception) {}
+        }
+        $email = Session::get('email');
+        $user = User::find_by_email($email);
+        View::make('home.perfil', ['userlayout' => $user]);
+    }
 
     public function destroy($id)
     {
@@ -110,17 +221,7 @@ class UserController extends BaseController implements ResourceControllerInterfa
         }
     }
 
-    public function check($user, $pwd){
-        if ((is_null($user))){
-            return false;
-        }elseif (strcmp($user->pwd, $pwd) !== 0){
-            return false;
-        }elseif ($user->admin == 1){
-            return true;
-        }else{
-            return false;
-        }
-    }
+
 
 
 
@@ -134,18 +235,14 @@ class UserController extends BaseController implements ResourceControllerInterfa
         // TODO: Implement index() method.
     }
 
-    public function create()
+
+    public function show($id)
     {
-        // TODO: Implement create() method.
+        // TODO: Implement show() method.
     }
 
     public function store()
     {
         // TODO: Implement store() method.
-    }
-
-    public function show($id)
-    {
-        // TODO: Implement show() method.
     }
 }

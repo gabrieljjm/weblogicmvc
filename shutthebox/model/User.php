@@ -1,12 +1,10 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: smendes
- * Date: 17-05-2016
- * Time: 14:16
- */
 class User extends \ActiveRecord\Model
 {
-
+    static $validates_presence_of = array(
+        array('email', 'message' => 'YooaaH it must be provided'),
+        array('username', 'message' => 'YooaaH it must be provided'),
+        array('pwd', 'message' => 'YooaaH it must be provided')
+    );
 }

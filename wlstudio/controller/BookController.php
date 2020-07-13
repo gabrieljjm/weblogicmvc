@@ -5,12 +5,6 @@ use ArmoredCore\WebObjects\Redirect;
 use ArmoredCore\WebObjects\View;
 use ArmoredCore\Interfaces\ResourceControllerInterface;
 
-/**
- * Created by PhpStorm.
- * User: smendes
- * Date: 08-04-2017
- * Time: 12:36
- */
 class BookController extends BaseController implements ResourceControllerInterface {
     /**
      * @return mixed

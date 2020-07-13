@@ -1,0 +1,38 @@
+<?php use ArmoredCore\WebObjects\Data;
+use ArmoredCore\WebObjects\Layout;
+Layout::includeLayout('header');
+$user = Data::get('user');
+$matches = Data::get('$matches'); ?>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-signin">
+                <h1 class="h3 mb-3 font-weight-normal">Altere o nome</h1>
+                <input type="number" readonly value="<?=$user->id?>" name="id" class="form-control">
+                <input type="text" readonly value="<?=$user->username?>" name="fullname" class="form-control">
+                <input type="email" readonly value="<?=$user->username?>" name="email" class="form-control">
+                <input type="text" readonly value="<?=$user->username?>" name="username" class="form-control">
+                <input type="password" readonly value="<?=$user->name?>" name="pwd" class="form-control">
+                <input type="date" readonly name="birthday" class="form-control">
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <table class="table table-striped">
+                <thead>
+                <th><h3>Id</h3></th>
+                <th><h3>Data</h3></th>
+                <th><h3>Jogador A</h3></th>
+                <th><h3>Jogador B</h3></th>
+                <th><h3>Resultado</h3></th>
+                </thead>
+                <tbody>
+                <?php
+                foreach ($matches as $matchlist) {
+                    echo $matchlist->id;
+                }?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+<?php Layout::includeLayout('footer') ?>

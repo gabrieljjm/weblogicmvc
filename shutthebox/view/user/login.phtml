@@ -1,0 +1,18 @@
+<?php use ArmoredCore\WebObjects\Layout;
+use ArmoredCore\WebObjects\Data;
+use ArmoredCore\WebObjects\URL;
+Layout::includeLayout('header');
+?>
+<?php $user = Data::get('user'); ?>
+<?php $msg = Data::get('msg'); ?>
+
+    <form class="form-signin" method="post" action="<?= Url::toRoute('user/login') ?>">
+        <h1 class="h3 mb-3 font-weight-normal">Iniciar Sessão</h1>
+        <input type="email" value="<?= $user->email ?>" name="email" class="form-control" placeholder="Email" required autofocus>
+        <input type="password" name="pwd" class="form-control" placeholder="Palavra-Passe" required>
+        <p><?=$msg?></p>
+        <button class="btn btn-lg btn-dark btn-block" type="submit">Entrar</button>
+        <a class="btn btn-secondary btn-light btn-outline-dark btn-block" href="<?= URL::toRoute('user/create')?>">Registar</a>
+    </form>
+
+<?php Layout::includeLayout('footer') ?>

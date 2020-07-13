@@ -16,21 +16,9 @@ Router::get('/','MainController/indexhead');
 Router::get('home/','MainController/indexhead');
 Router::get('home/inicio','MainController/index');
 
-Router::get('home/login','MainController/login');
-Router::post('home/login','MainController/authenticate');
-
-Router::get('home/perfil','MainController/perfil');
-Router::post('home/perfil','MainController/update');
-
-Router::get('home/logout','MainController/logout');
-
 Router::get('game/menu','GameController/menu');
 Router::get('game/game','GameController/game');
 
-Router::resource('backoffice', 'UserController');
-
-/*
-Router::resource('book', 'BookController');
-*/
+Router::resource('user', 'UserController');
 
 /************** End of URLEncoder Routing Rules ************************************/

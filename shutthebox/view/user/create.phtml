@@ -1,0 +1,22 @@
+<?php use ArmoredCore\WebObjects\Layout;
+use ArmoredCore\WebObjects\Data;
+use ArmoredCore\WebObjects\URL;
+Layout::includeLayout('header');
+?>
+<?php $user = Data::get('user'); ?>
+<?php $msg = Data::get('msg'); ?>
+
+
+    <form class="form-signin" method="post" action="<?= Url::toRoute('user/create') ?>">
+        <h1 class="h3 mb-3 font-weight-normal">Registar</h1>
+        <input type="text" value="<?= $user->fullname ?>" name="fullname" class="form-control" placeholder="Nome Completo" required autofocus>
+        <input type="email" value="<?= $user->email ?>" name="email" class="form-control" placeholder="Email" required>
+        <input type="text" value="<?= $user->username ?>" name="username" class="form-control" placeholder="Nome Utilizador" required>
+        <input type="password" name="pwd" class="form-control" placeholder="Palavra-Passe" required>
+        <input type="date" name="birthday" class="form-control">
+        <p><?= $msg ?></p>
+        <button class="btn btn-lg btn-dark btn-block" type="submit">Registar</button>
+        <a class="btn btn-secondary btn-light btn-outline-dark btn-block" href="<?= URL::toRoute('user/login')?>">Entrar</a>
+    </form>
+
+<?php Layout::includeLayout('footer') ?>
