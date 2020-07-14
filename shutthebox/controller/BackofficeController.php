@@ -60,6 +60,48 @@ class BackofficeController extends BaseController {
             } catch (Exception $exception) {}
             return Redirect::toRoute('user/login');
         }
+        if (!Post::has('username')){
+            $username = Session::get('username');
+            $userlayout = User::find_by_username($username);
+            $id = Post::get('id');
+            $user = User::find($id);
+            return View::make('backoffice.edit', ['userlayout' => $userlayout, 'user' => $user, 'msg' => ""]);
+        }else{
+            $user = new User(Post::getAll());
+            $usercompare = User::find($user->id);
+            $emails = User::count(array('conditions' => array('email = ? AND id != ?', $user->email, $usercompare->id)));
+            $usernames = User::count(array('conditions' => array('username = ? AND id != ?', $user->username, $usercompare->id)));
+            if ($emails == 0){
+                if ($usernames == 0){
+                    $usercompare->update_attributes(Post::getAll());
+                    if($usercompare->is_valid()){
+                        $usercompare->save();
+                        return Redirect::toRoute('backoffice/show');
+                    } else {
+                        // return form with data and errors
+                        $msg = "Utilizador inválido!";
+                        return View::make('backoffice.edit', ['user' => $user, 'userlayout' => $usercompare, 'msg' => $msg]);
+                    }
+                }else{
+                    $msg = "Username é usado noutra conta!";
+                    return View::make('backoffice.edit', ['user' => $user, 'userlayout' => $usercompare, 'msg' => $msg]);
+                }
+            }else{
+                $msg = "Email é usado noutra conta!";
+                return View::make('backoffice.edit', ['user' => $user, 'userlayout' => $usercompare, 'msg' => $msg]);
+            }
+        }
+    }
+
+    public function update()
+    {
+        if (!$this->check()) {
+            try {
+                Session::remove('username');
+                Session::remove('pwd');
+            } catch (Exception $exception) {}
+            return Redirect::toRoute('user/login');
+        }
         if (!Post::has('email')){
             $username = Session::get('username');
             $user = User::find_by_username($username);
@@ -153,85 +195,73 @@ class BackofficeController extends BaseController {
         }*/
     }
 
-    public function destroy($id)
+    public function destroy()
     {
-        if (!$this->check()) {
-            try {
-                Session::remove('username');
-                Session::remove('pwd');
-            } catch (Exception $exception) {}
-            return Redirect::toRoute('user/login');
+        if (!Post::has('id')){
+            return Redirect::toRoute('home/menu');
         }else{
-            $useredit = User::find($id);
-            $useredit->delete();
-            return Redirect::ToRoute('backoffice/show');
-        }
-    }
-
-
-    public function ban($id)
-    {
-        if (!$this->check()) {
-            try {
-                Session::remove('username');
-                Session::remove('pwd');
-            } catch (Exception $exception) {}
-            return Redirect::toRoute('user/login');
-        }else{
-            $user = User::find($id);
-            if ($user->banned == 1){
-                $user->banned = 0;
+            if (!$this->check()) {
+                try {
+                    Session::remove('username');
+                    Session::remove('pwd');
+                } catch (Exception $exception) {}
+                return Redirect::toRoute('user/login');
             }else{
-                $user->banned = 1;
-            }
-            $user->save();
-            return Redirect::toRoute('backoffice/show');
-        }
-    }
-
-    public function admin($id)
-    {
-        if (!$this->check()) {
-            try {
-                Session::remove('username');
-                Session::remove('pwd');
-            } catch (Exception $exception) {}
-            return Redirect::toRoute('user/login');
-        }else{
-            $user = User::find($id);
-            if ($user->admin == 1){
-                $user->admin = 0;
-            }else{
-                $user->admin = 1;
-            }
-            $user->save();
-            return Redirect::ToRoute('backoffice/show');
-        }
-    }
-
-    public function update($id)
-    {
-        try {
-            $name = Session::get('name');
-            $pwd = Session::get('pwd');
-            $user = User::find_by_name($name);
-            if ($this->check($user, $pwd)){
-                if ($id == $user->id){
-                    Session::set('name', $name);
-                    Session::set('pwd', $pwd);
-                }
+                $id = Post::get('id');
                 $useredit = User::find($id);
-                $useredit->update_attributes(Post::getAll());
-                if($useredit->is_valid()){
-                    $useredit->save();
-                    Redirect::toRoute('backoffice/lista');
-                } else {
-                    // return form with data and errors
-                    Redirect::flashToRoute('backoffice/editar', ['user' => $user, 'useredit' => $useredit], $id);
-                }
+                $useredit->delete();
+                return Redirect::ToRoute('backoffice/show');
             }
-        }catch (Exception $e){
-            Redirect::flashToRoute('home/inicio', ['user' => null]);
+        }
+    }
+
+    public function ban()
+    {
+        if (!Post::has('id')){
+            return Redirect::toRoute('home/menu');
+        }else{
+            if (!$this->check()) {
+                try {
+                    Session::remove('username');
+                    Session::remove('pwd');
+                } catch (Exception $exception) {}
+                return Redirect::toRoute('user/login');
+            }else{
+                $id = Post::get('id');
+                $user = User::find($id);
+                if ($user->banned == 1){
+                    $user->banned = 0;
+                }else{
+                    $user->banned = 1;
+                }
+                $user->save();
+                return Redirect::toRoute('backoffice/show');
+            }
+        }
+    }
+
+    public function admin()
+    {
+        if (!Post::has('id')){
+            return Redirect::toRoute('home/menu');
+        }else{
+            if (!$this->check()) {
+                try {
+                    Session::remove('username');
+                    Session::remove('pwd');
+                } catch (Exception $exception) {}
+                return Redirect::toRoute('user/login');
+            }else{
+                $id = Post::get('id');
+                $user = User::find($id);
+                if ($user->admin == 1){
+                    $user->admin = 0;
+                }else{
+                    $user->admin = 1;
+                }
+                $user->save();
+                return Redirect::ToRoute('backoffice/show');
+            }
         }
     }
 }

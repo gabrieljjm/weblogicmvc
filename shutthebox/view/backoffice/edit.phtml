@@ -1,0 +1,41 @@
+<?php use ArmoredCore\WebObjects\Data;
+use ArmoredCore\WebObjects\Layout;
+use ArmoredCore\WebObjects\URL;
+Layout::includeLayout('header');
+$user = Data::get('user');
+$msg = Data::get('msg'); ?>
+
+
+    <form class="form-signin" method="post" action="<?= Url::toRoute('backoffice/edit') ?>">
+        <h1 class="h3 mb-3 font-weight-normal">Editar</h1>
+        <input type="text" value="<?=$user->fullname?>" name="fullname" class="form-control" placeholder="Nome Completo" required autofocus>
+        <input type="email" value="<?=$user->email?>" name="email" class="form-control" placeholder="Email" required>
+        <input type="text" value="<?=$user->username?>" name="username" class="form-control" placeholder="Username" required>
+        <input type="password" value="<?=$user->pwd?>" name="pwd" class="form-control" placeholder="Palavra-Passe" required>
+        <input type="date" name="birthday" class="form-control">
+        <p><?=$msg?></p>
+        <button class="btn btn-lg btn-dark btn-block" name="id" value="<?= $user->id ?>" type="submit">Guardar</button>
+        <a class="btn btn-secondary btn-light btn-outline-danger btn-block" data-toggle="modal" data-target="#exampleModal">Eliminar Conta</a>
+    </form>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Atenção!!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Tem a certeza que quer eliminar a conta?
+                </div>
+                <form class="modal-footer" method="post" action="<?= Url::toRoute('backoffice/destroy') ?>">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Não</button>
+                    <button type="submit" class="btn btn-danger" name="id" value="<?= $user->id ?>" >Sim</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<?php Layout::includeLayout('footer') ?>

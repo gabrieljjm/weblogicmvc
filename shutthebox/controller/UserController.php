@@ -4,7 +4,6 @@ use ArmoredCore\WebObjects\Post;
 use ArmoredCore\WebObjects\Redirect;
 use ArmoredCore\WebObjects\View;
 use ArmoredCore\WebObjects\Session;
-use ArmoredCore\Interfaces\ResourceControllerInterface;
 
 class UserController extends BaseController {
 
@@ -151,7 +150,7 @@ class UserController extends BaseController {
                     return View::make('user.edit', ['user' => $user, 'userlayout' => $usercompare, 'msg' => $msg]);
                 }
             }else{
-                $msg = "Email já foi registado noutra conta!";
+                $msg = "Email é usado noutra conta!";
                 return View::make('user.edit', ['user' => $user, 'userlayout' => $usercompare, 'msg' => $msg]);
             }
         }
