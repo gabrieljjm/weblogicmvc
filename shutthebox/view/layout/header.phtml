@@ -51,18 +51,18 @@ use ArmoredCore\WebObjects\Data; ?>
                 <li class="nav-item">
                     <a class="nav-link" href="<?= Url::toRoute('home/top')?>">Melhores Jogadores</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= Url::toRoute('user/logout')?>">Sair</a>
-                </li>
                 <?php
                 if ($user->admin == 1){
-                ?>
+                    ?>
                     <li class="nav-item">
                         <a class="nav-link" href="<?= Url::toRoute('backoffice/show')?>">Backoffice</a>
                     </li>
-                <?php
+                    <?php
                 }
                 ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= Url::toRoute('user/logout')?>">Sair</a>
+                </li>
             </ul>
             <?php
             }

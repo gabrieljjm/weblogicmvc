@@ -11,7 +11,7 @@ $msg = Data::get('msg'); ?>
         <input type="text" value="<?=$user->fullname?>" name="fullname" class="form-control" placeholder="Nome Completo" required autofocus>
         <input type="email" value="<?=$user->email?>" name="email" class="form-control" placeholder="Email" required>
         <input type="password" value="<?=$user->pwd?>" name="pwd" class="form-control" placeholder="Palavra-Passe" required>
-        <input type="date" name="birthday" class="form-control">
+        <input type="date" value="<?= $user->birthday->format('Y-m-d') ?>" name="birthday" class="form-control">
         <p><?=$msg?></p>
         <button class="btn btn-lg btn-dark btn-block" type="submit">Guardar</button>
         <a class="btn btn-secondary btn-light btn-outline-danger btn-block" data-toggle="modal" data-target="#exampleModal">Eliminar Conta</a>

@@ -9,6 +9,7 @@ use ArmoredCore\Facades\Router;
 Router::get('/','MainController/indexhead');
 Router::get('home/','MainController/indexhead');
 Router::get('home/menu','MainController/index');
+Router::get('home/top','MainController/top');
 
 Router::get('game/menu','GameController/menu');
 Router::get('game/game','GameController/game');

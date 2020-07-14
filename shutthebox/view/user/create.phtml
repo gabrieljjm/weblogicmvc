@@ -13,7 +13,7 @@ Layout::includeLayout('header');
         <input type="email" value="<?= $user->email ?>" name="email" class="form-control" placeholder="Email" required>
         <input type="text" value="<?= $user->username ?>" name="username" class="form-control" placeholder="Nome Utilizador" required>
         <input type="password" name="pwd" class="form-control" placeholder="Palavra-Passe" required>
-        <input type="date" name="birthday" class="form-control">
+        <input type="date" name="birthday" class="form-control" required>
         <p><?= $msg ?></p>
         <button class="btn btn-lg btn-dark btn-block" type="submit">Registar</button>
         <a class="btn btn-secondary btn-light btn-outline-dark btn-block" href="<?= URL::toRoute('user/login')?>">Entrar</a>

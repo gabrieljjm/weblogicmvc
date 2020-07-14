@@ -1,6 +1,5 @@
 <?php use ArmoredCore\WebObjects\Layout;
 use ArmoredCore\WebObjects\Data;
-use ArmoredCore\Facades\AssetBundler;
 use ArmoredCore\WebObjects\URL;
 Layout::includeLayout('header');
 $users = Data::get('users');
@@ -9,19 +8,19 @@ $user = Data::get('userlayout'); ?>
     <div class="form-signin">
         <h1 class="h3 mb-3 font-weight-normal">Lista de Utilizadores</h1>
     </div>
-
     <div class="container text-center">
         <table class="table table-bordered table-responsive-lg table-striped">
             <thead>
-            <th><h6>Id</h6></th>
-            <th><h6>Nome</h6></th>
-            <th><h6>Email</h6></th>
-            <th><h6>Username</h6></th>
-            <th><h6>Bans</h6></th>
-            <th><h6>Admin</h6></th>
+                <th><h6>Id</h6></th>
+                <th><h6>Nome</h6></th>
+                <th><h6>Email</h6></th>
+                <th><h6>Username</h6></th>
+                <th><h6>Bans</h6></th>
+                <th><h6>Admin</h6></th>
             </thead>
             <tbody>
-            <?php foreach ($users as $userlist) {
+            <?php
+            foreach ($users as $userlist) {
                 if (strcmp($userlist->username, $user->username)){
                     ?>
                     <tr>
@@ -122,9 +121,10 @@ $user = Data::get('userlayout'); ?>
                             </div>
                         </td>
                     </tr>
-                    <?php
+                <?php
                 }
-            } ?>
+            }
+            ?>
             </tbody>
         </table>
     </div>

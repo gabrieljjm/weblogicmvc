@@ -179,4 +179,26 @@ class UserController extends BaseController {
             }
         }
     }
+
+    public function show()
+    {
+        if(Post::has('id')){
+            $id = Post::get('id');
+            $user = User::find($id);
+            $scores = Score::all(array('conditions' => array('userid=?',$user->id), 'order' => 'matchdate desc'));
+            if (!$this->check()) {
+                try {
+                    Session::remove('username');
+                    Session::remove('pwd');
+                } catch (Exception $exception) {}
+                return View::make('user.show', ['userlayout' => null, 'user' => $user, 'scores' => $scores]);
+            }else{
+                $username = Session::get('username');
+                $userlayout = User::find_by_username($username);
+                return View::make('user.show', ['userlayout' => $userlayout, 'user' => $user, 'scores' => $scores]);
+            }
+        }else{
+            return Redirect::toRoute('home/menu');
+        }
+    }
 }
