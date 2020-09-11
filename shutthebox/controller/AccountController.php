@@ -24,6 +24,13 @@ class AccountController extends BaseController
     }
 
     public function movimentos(){
+
+        $movimentos = User::find_by_sql('SELECT users.id, users.username,
+                (SELECT COUNT(*) from `scores` where scores.userid = users.id and scores.playerA > scores.playerB) as \'win\',
+                (SELECT COUNT(*) from `scores` where scores.userid = users.id and scores.playerA < scores.playerB) as \'def\',
+                (SELECT COUNT(*) from `scores` where scores.userid = users.id and scores.playerA = scores.playerB) as \'tie\'
+                FROM `users` ORDER BY (SELECT COUNT(*) from `scores` where scores.userid = users.id and scores.playerA > scores.playerB) DESC
+                LIMIT 10');
         if (!$this->check()) {
             try {
                 Session::remove('username');
@@ -80,22 +87,7 @@ class AccountController extends BaseController
     }
 
 
-    public function transactions(){
 
-        #$movimento = User::find_by_sql();
-
-        if (!$this->check()) {
-            try {
-                Session::remove('username');
-                Session::remove('pwd');
-            } catch (Exception $exception) {}
-            return View::make('account.transactions', ['userlayout' => null]);
-        }
-        $username = Session::get('username');
-        $user = User::find_by_username($username);
-        $account = Accounts::find_by_user_id($user->id);
-        return View::make('account.transactions', ['account' => $account, 'userlayout' => $user]);
-    }
 
 
 
