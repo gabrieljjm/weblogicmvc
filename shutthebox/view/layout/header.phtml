@@ -3,7 +3,10 @@ use ArmoredCore\WebObjects\Asset;
 use ArmoredCore\Facades\AssetBundler;
 use ArmoredCore\WebObjects\URL;
 use ArmoredCore\WebObjects\Data; ?>
-<?php $user = Data::get('userlayout');
+<?php
+$user = Data::get('userlayout');
+$game = Data::get('game');
+$acc = Data::get('account');
 ?>
 
 <!DOCTYPE html>
@@ -50,6 +53,12 @@ use ArmoredCore\WebObjects\Data; ?>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="<?= Url::toRoute('home/top')?>">Melhores Jogadores</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= Url::toRoute('account/movimentos')?>">Movimentos da Conta</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= Url::toRoute('account/menu')?>"><?=$acc->valor?> €</a>
                 </li>
                 <?php
                 if ($user->admin == 1){

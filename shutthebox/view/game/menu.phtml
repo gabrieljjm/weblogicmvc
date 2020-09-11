@@ -1,8 +1,12 @@
-<?php use ArmoredCore\WebObjects\Layout;
+<?php use ArmoredCore\WebObjects\Data;
+use ArmoredCore\WebObjects\Layout;
 use ArmoredCore\WebObjects\URL;
-Layout::includeLayout('header') ?>
+
+Layout::includeLayout('header') ;
+?>
 
     <div class="container text-center">
+        <br>
         <a href="<?= Url::toRoute('game/game')?>" class="btn btn-lg btn-danger">
             COMEÇAR
         </a>

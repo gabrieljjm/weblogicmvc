@@ -1,0 +1,13 @@
+<?php use ArmoredCore\WebObjects\Layout;
+use ArmoredCore\WebObjects\URL;
+Layout::includeLayout('header') ?>
+
+
+    <div class="container text-center">
+        <br>
+        <a href="<?= Url::toRoute('account/saldo')?>" class="btn btn-lg btn-danger">
+            Carregar Saldo
+        </a>
+    </div>
+
+<?php Layout::includeLayout('footer') ?>

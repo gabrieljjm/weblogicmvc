@@ -7,46 +7,61 @@ use ArmoredCore\WebObjects\Post;
 
 class GameController extends BaseController
 {
+//
+
     public function menu(){
-        try {
-            $name = Session::get('name');
-            $pwd = Session::get('pwd');
-            $user = User::find_by_name($name);
-            if ($this->check($user, $pwd)){
-                return View::make('game.menu', ['user' => $user]);
-            }
-        }catch (Exception $e){}
-        Redirect::toURL('\weblogicmvc');
+        if (!$this->check()) {
+            try {
+                Session::remove('username');
+                Session::remove('pwd');
+            } catch (Exception $exception) {}
+            return View::make('game.menu', ['userlayout' => null]);
+        }
+        $username = Session::get('username');
+        $user = User::find_by_username($username);
+        $account = Accounts::find_by_user_id($user->id);
+        var_dump($account);
+        return View::make('game.menu', ['userlayout' => $user, 'account' => $account]);
     }
+
 
     public function game(){
-            $name = Session::get('name');
+            unset($_SESSION['game']);
+            $name = Session::get('username');
             $pwd = Session::get('pwd');
-            $user = User::find_by_name($name);
+            $user = User::find('first',array('username' => $name));
             if ($this->check($user, $pwd)){
                 if (isset($_SESSION['game'])){
-                    //$game = Game::CheckGame(Session::get('game'));
-                    return View::make('game.game', ['user' => $user/*, 'game' => $game*/]);
+                    $game = $_SESSION['game']->CheckGame(Session::get('game'));
+                    $_SESSION['game'] = $game;
+                    return View::make('game.game', ['userlayout' => $user, 'game' => $game]);
                 }else{
-                    /*$game = Game::StartGame();
-                    $_SESSION['game'] = $game;*/
-                    return View::make('game.game', ['user' => $user/*, 'game' => $game*/]);
+                    $game = Game::StartGame();
+                    $_SESSION['game'] = $game;
+                    return View::make('game.game', ['userlayout' => $user, 'game' => $game]);
                 }
             }
-        Redirect::toURL('\weblogicmvc');
     }
 
-    public function check($user, $pwd){
-        if ((is_null($user))){
-            return false;
-        }elseif (strcmp($user->pwd, $pwd) !== 0){
-            return false;
-        }elseif ($user->admin == 1){
-            return true;
-        }elseif ($user->banned == 1){
-            return false;
-        }else{
-            return true;
-        }
+    public function check(){
+        try {
+            $username = Session::get('username');
+            $pwd = Session::get('pwd');
+            $user = User::find_by_username($username);
+            if ((is_null($user))){
+                return false;
+            }elseif (strcmp($user->pwd, $pwd) != 0){
+                return false;
+            }elseif ($user->admin == 1){
+                return true;
+            }elseif ($user->banned == 1){
+                return false;
+            }else{
+                return true;
+            }
+        }catch (Exception $exception){}
+        return false;
     }
+
+
 }

@@ -7,6 +7,7 @@ use ArmoredCore\WebObjects\View;
 class MainController extends BaseController
 {
     public function indexhead(){
+
         if (!$this->check()) {
             try {
                 Session::remove('username');
@@ -29,8 +30,12 @@ class MainController extends BaseController
         }
         $username = Session::get('username');
         $user = User::find_by_username($username);
-        return View::make('home.menu', ['userlayout' => $user]);
+        $account = Accounts::find_by_user_id($user->id);
+        return View::make('home.menu', ['account' => $account, 'userlayout' => $user]);
+
     }
+
+
 
     public function top(){
         $top = User::find_by_sql('SELECT users.id, users.username,
@@ -48,7 +53,8 @@ class MainController extends BaseController
         }
         $username = Session::get('username');
         $user = User::find_by_username($username);
-        return View::make('home.top', ['userlayout' => $user, 'top' => $top]);
+        $account = Accounts::find_by_user_id($user->id);
+        return View::make('home.top', ['userlayout' => $user, 'top' => $top, 'account'=>$account]);
     }
 
     public function check(){
@@ -56,6 +62,7 @@ class MainController extends BaseController
             $username = Session::get('username');
             $pwd = Session::get('pwd');
             $user = User::find_by_username($username);
+            $account = Accounts::find_by_user_id($user->id);
             if ((is_null($user))){
                 return false;
             }elseif (strcmp($user->pwd, $pwd) != 0){

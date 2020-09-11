@@ -1,7 +1,14 @@
 <?php use ArmoredCore\WebObjects\Asset;
 use ArmoredCore\WebObjects\Layout;
+use ArmoredCore\WebObjects\Data;
 use ArmoredCore\WebObjects\URL;
+
+$game = Data::get('game');
+
+
 Layout::includeLayout('header') ?>
+
+
 
     <div class="container">
         <div class="row text-center">
@@ -76,7 +83,7 @@ Layout::includeLayout('header') ?>
                         <img class="rounded img-fluid" alt="Bootstrap Image Preview" src="<?=Asset::image('user.png')?>" />
                     </div>
                     <div class="col-md-6">
-                        <img class="rounded img-fluid" alt="Bootstrap Image Preview" src="<?=Asset::image('pc.png')?>" />
+                        <img class="rounded img-fluid" alt="Bootstrap Image Preview" src="<?=Asset::image('user.png')?>" />
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -91,21 +98,42 @@ Layout::includeLayout('header') ?>
                         </button>
                     </div>
                 </div>
+
+
+
+
                 <div class="row mt-3">
                     <div class="col-md-12">
-                        <button type="button" class="btn btn-info">
+                        <button type="submit" class="btn btn-info" name="throw" value="lancar" >
                             Lançar os Dados
                         </button>
                     </div>
                 </div>
+
+                <form method="post">
+                    <input type="submit" name="test" id="test" value="Lançar dados" /><br/>
+                </form>
+
+                <?php
+
+                function lançarDados()
+                {
+                    echo "Botão está a funcionar";
+                }
+
+                if(array_key_exists('test',$_POST)){
+                    lançarDados();
+                }
+
+                ?>
                 <div class="row mt-3">
                     <div class="col-md-12">
-                        <img alt="Bootstrap Image Preview" src="<?=Asset::image('Dice/dieRed1.png')?>" />
+                        <img alt="Bootstrap Image Preview" src="<?=Asset::image('Dice/dieRed'. $game->pcdices[0] .'.png')?>" />
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-12">
-                        <img alt="Bootstrap Image Preview" src="<?=Asset::image('Dice/dieRed1.png')?>" />
+                        <img alt="Bootstrap Image Preview" src="<?=Asset::image('Dice/dieRed'. $game->pcdices[1] .'.png')?>" />
                     </div>
                 </div>
             </div>
@@ -176,5 +204,11 @@ Layout::includeLayout('header') ?>
             </div>
         </div>
     </div>
+
+
+
+
+
+
 
 <?php Layout::includeLayout('footer') ?>

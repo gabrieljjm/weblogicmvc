@@ -265,6 +265,7 @@ abstract class Connection
 	 */
 	public function query($sql, &$values=array())
 	{
+
 		if ($this->logging)
 			$this->logger->log($sql);
 

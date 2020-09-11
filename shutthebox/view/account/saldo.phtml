@@ -1,0 +1,33 @@
+<?php use ArmoredCore\WebObjects\Layout;
+use ArmoredCore\WebObjects\Data;
+use ArmoredCore\WebObjects\URL;
+Layout::includeLayout('header');
+$account = Data::get('account');
+?>
+
+
+    <form class="form-signin" method="post" action="<?= Url::toRoute('account/saldo')?>">
+        <input type="number" name="valor" class="form-control" placeholder="Valor a carregar" required autofocus>
+        <br>
+        <input type="text" name="descricao" class="form-control" placeholder="Descricao" required autofocus>
+        <br>
+        <button class="btn btn-lg btn-dark btn-block" type="submit" data-toggle="modal" data-target="#exampleModal">Carregar</button>
+    </form>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Carregamento feito com sucesso.</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form class="modal-footer" method="post" action="<?= Url::toRoute('account/saldo') ?>">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Ok</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<?php Layout::includeLayout('footer') ?>

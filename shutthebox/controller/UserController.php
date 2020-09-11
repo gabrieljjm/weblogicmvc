@@ -58,6 +58,9 @@ class UserController extends BaseController {
         }else{
             $user = new User(Post::getAll());
             $usercompare = User::find_by_username($user->username);
+//
+
+            //
             if ((is_null($usercompare))){
                 $msg = "Utilizador não registado!";
                 return View::make('user.login', ['user' => $user, 'userlayout' => null, 'msg' => $msg]);
@@ -78,6 +81,8 @@ class UserController extends BaseController {
             }
         }
     }
+
+
 
     public function logout()
     {
@@ -116,8 +121,9 @@ class UserController extends BaseController {
         }
         $username = Session::get('username');
         $user = User::find_by_username($username);
+        $account = Accounts::find_by_user_id($user->id);
         $scores = Score::all(array('conditions' => array('userid=?',$user->id), 'order' => 'matchdate desc'));
-        return View::make('user.profile', ['userlayout' => $user, 'scores' => $scores]);
+        return View::make('user.profile', ['userlayout' => $user, 'scores' => $scores, 'account'=> $account]);
     }
 
     public function edit()

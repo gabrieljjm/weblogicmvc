@@ -6,7 +6,7 @@
  * Date: 17-05-2016
  * Time: 14:16
  */
-class Game extends \ActiveRecord\Model
+class Game
 {
     public $stategame = "";
     public $playerdices = array();
@@ -14,16 +14,23 @@ class Game extends \ActiveRecord\Model
     public $playerscore = 0;
     public $pcscore = 0;
 
-    function StartGame(){
-        $this->stategame = "start";
-        $this->playerdices = array();
-        $this->pcdices = array();
-        $this->playerscore = 0;
-        $this->pcdices = 0;
-        return $this;
+
+
+   public static function StartGame(){
+       $game = new Game();
+        $game->stategame = "start";
+        $game->playerdices = array();
+        $game->pcdices = array(3, 1);
+        $game->playerscore = 0;
+        return $game;
+    }
+
+    function __construct() {
+
     }
 
     function CheckGame($game){
+       return $game;
         if (strcmp($game->stategame, "start") || strcmp($game->stategame, "player")){
             $this->stategame = "player";
             $this->playerdices = $game->playerdices;
