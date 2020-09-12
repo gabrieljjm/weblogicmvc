@@ -5,6 +5,7 @@ Layout::includeLayout('header');
 $bt = Data::get('botao');
 $msg = Data::get('mensagem');
 $msg2 = Data::get('saldo');
+$addBotao = Data::get('addBotao');
 ?>
     <div class="container text-center">
         <br>
@@ -25,11 +26,25 @@ $msg2 = Data::get('saldo');
                 <div class="modal-body">
                     <?= $msg2 ?>
                     <?= $msg ?>
+
                 </div>
+
+
                 <form class="modal-footer" method="post" action="<?= Url::toRoute('game/game') ?>">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Não</button>
                     <button class="btn btn-success" type="submit" <?= $bt ?> >Ok</button>
                 </form>
+
+
+
+                <div class="container text-center" <?= $addBotao ?>>
+                    <br>
+                    <a href="<?= Url::toRoute('account/saldo')?>" class="btn btn-lg btn-danger">
+                        Carregar Saldo
+                    </a>
+                    <br>
+                </div>
+                <br>
             </div>
         </div>
     </div>

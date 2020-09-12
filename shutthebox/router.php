@@ -17,6 +17,7 @@ Router::get('game/game','GameController/game');
 Router::get('account/menu','AccountController/menu');
 Router::get('account/saldo','AccountController/RechargeBalance');
 
+
 Router::get('account/movimentos','AccountController/movimentos');
 Router::post('account/saldo','AccountController/insertRechargeBalance');
 Router::post('game/menu','GameController/menu');

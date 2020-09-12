@@ -28,11 +28,12 @@ class GameController extends BaseController
             $botao = "disabled";
             $saldoPositivo = "Ao premir o botão 'Ok' serão-lhe retirados 0,05 euros.";
             $mensagem = "O saldo atual não lhe permite jogar.";
-            return View::make('game.menu', ['userlayout' => $user, 'account' => $account, 'montante' => $montante, 'botao' => $botao, 'mensagem'=>$mensagem,'saldo' => null ]);
+            $adicionarBotao = "hidden";
+            return View::make('game.menu', ['userlayout' => $user, 'account' => $account, 'montante' => $montante, 'botao' => $botao, 'mensagem'=>$mensagem,'saldo' => null, 'addBotao' => null ]);
         }else{
             $saldoPositivo = "Ao premir o botão 'Ok' serão-lhe retirados 0,05 euros.";
-
-            return View::make('game.menu', ['userlayout' => $user, 'account' => $account, 'montante' => $montante, 'saldo' => $saldoPositivo, 'botao' => null, 'mensagem' => null]);
+            $adicionarBotao = "hidden";
+            return View::make('game.menu', ['userlayout' => $user, 'account' => $account, 'montante' => $montante, 'saldo' => $saldoPositivo, 'botao' => null, 'mensagem' => null, 'addBotao' => $adicionarBotao]);
         }
 
         return View::make('game.menu', ['userlayout' => $user, 'account' => $account, 'montante' => $montante]);

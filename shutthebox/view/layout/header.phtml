@@ -46,7 +46,7 @@ $montante = Data::get('montante');
 
             }else{
             ?>
-            <ul class="navbar-nav">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="<?= Url::toRoute('user/profile')?>"><?=$user->username?></a>
                 </li>
@@ -71,6 +71,9 @@ $montante = Data::get('montante');
                     <?php
                 }
                 ?>
+
+            </ul>
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="<?= Url::toRoute('user/logout')?>">Sair</a>
                 </li>
