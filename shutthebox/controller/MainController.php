@@ -67,7 +67,7 @@ class MainController extends BaseController
             $pwd = Session::get('pwd');
             $user = User::find_by_username($username);
             $account = Accounts::find_by_user_id($user->id);
-            if ((is_null($user))){
+            if ((is_null($user)) && (is_null($account))){
                 return false;
             }elseif (strcmp($user->pwd, $pwd) != 0){
                 return false;

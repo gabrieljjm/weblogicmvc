@@ -2,10 +2,11 @@
 use ArmoredCore\WebObjects\Layout;
 use ArmoredCore\WebObjects\URL;
 Layout::includeLayout('header');
-$bt = Data::get('botao');
+
 $msg = Data::get('mensagem');
 $msg2 = Data::get('saldo');
 $addBotao = Data::get('addBotao');
+$removeBt = Data::get('removeBt');
 ?>
     <div class="container text-center">
         <br>
@@ -31,8 +32,8 @@ $addBotao = Data::get('addBotao');
 
 
                 <form class="modal-footer" method="post" action="<?= Url::toRoute('game/game') ?>">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Não</button>
-                    <button class="btn btn-success" type="submit" <?= $bt ?> >Ok</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" <?=$removeBt?>>Cancelar</button>
+                    <button class="btn btn-success" type="submit" <?= $removeBt ?> >Ok</button>
                 </form>
 
 

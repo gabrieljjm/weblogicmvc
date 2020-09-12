@@ -59,10 +59,7 @@ class UserController extends BaseController {
         }else{
             $user = new User(Post::getAll());
             $usercompare = User::find_by_username($user->username);
-//
-            #$montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from `accounts` where accounts.user_id ='$usercompare->id'");
 
-            //
             if ((is_null($usercompare))){
                 $msg = "Utilizador não registado!";
                 return View::make('user.login', ['user' => $user, 'userlayout' => null, 'msg' => $msg]);

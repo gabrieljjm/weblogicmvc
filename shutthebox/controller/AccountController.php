@@ -14,7 +14,7 @@ class AccountController extends BaseController
                 Session::remove('username');
                 Session::remove('pwd');
             } catch (Exception $exception) {}
-            return View::make('account.menu', ['userlayout' => null]);
+            return Redirect::toRoute('user/login');
         }
         $username = Session::get('username');
         $user = User::find_by_username($username);
@@ -25,13 +25,12 @@ class AccountController extends BaseController
     }
 
     public function movimentos(){
-
         if (!$this->check()) {
             try {
                 Session::remove('username');
                 Session::remove('pwd');
             } catch (Exception $exception) {}
-            return View::make('account.menu', ['userlayout' => null]);
+            return Redirect::toRoute('user/login');
         }
         $username = Session::get('username');
         $user = User::find_by_username($username);
@@ -44,41 +43,29 @@ class AccountController extends BaseController
 
     }
 
-    public function RechargeBalance(){
-
-        if (!$this->check()) {
-            try {
-                Session::remove('username');
-                Session::remove('pwd');
-            } catch (Exception $exception) {}
-            return View::make('account.saldo', ['userlayout' => null]);
-        }
-        $username = Session::get('username');
-        $user = User::find_by_username($username);
-        $account = Accounts::find_by_user_id($user->id);
-        $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from `accounts` where accounts.user_id ='$user->id'");
-        return View::make('account.saldo', ['account' => $account, 'userlayout' => $user, 'montante' => $montante]);
-    }
-
     public function insertRechargeBalance(){
-
         if (!$this->check()) {
             try {
                 Session::remove('username');
                 Session::remove('pwd');
             } catch (Exception $exception) {}
-            return View::make('account.saldo', ['userlayout' => null]);
+            return Redirect::toRoute('user/login');
         }
         $username = Session::get('username');
         $user = User::find_by_username($username);
         $account = Accounts::find_by_user_id($user->id);
+
         $acc = new Accounts(Post::getAll());
-        $acc->user_id = $user->id;
-        $acc->tipomovimento = "Crédito";
-        $acc->data = date("Y/m/d");
-        if ($acc->is_valid()){
-            $acc->save();
+        if (!Accounts::find('first',array('valor' => $acc->valor))) {
+            $acc->user_id = $user->id;
+            $acc->tipomovimento = "Crédito";
+            $acc->data = date("Y/m/d");
+
+            if ($acc->is_valid()) {
+                $acc->save();
+            }
         }
+
         $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from `accounts` where accounts.user_id ='$user->id'");
         return View::make('account.saldo', ['account' => $account, 'userlayout' => $user, 'montante' => $montante]);
     }
@@ -90,8 +77,8 @@ class AccountController extends BaseController
             $username = Session::get('username');
             $pwd = Session::get('pwd');
             $user = User::find_by_username($username);
-
-            if ((is_null($user))){
+            $account = Accounts::find_by_user_id($user->id);
+            if ((is_null($user)) && (is_null($account))){
                 return false;
             }elseif (strcmp($user->pwd, $pwd) != 0){
                 return false;
