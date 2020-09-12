@@ -100,7 +100,8 @@ class UserController extends BaseController {
             $username = Session::get('username');
             $pwd = Session::get('pwd');
             $user = User::find_by_username($username);
-            if ((is_null($user))){
+            $acc = Accounts::find_by_user_id($user->id);
+            if ((is_null($user)) && (is_null($acc))){
                 return false;
             }elseif (strcmp($user->pwd, $pwd) != 0){
                 return false;

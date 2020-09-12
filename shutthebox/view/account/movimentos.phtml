@@ -16,6 +16,7 @@ $montante = Data::get('montante');
             <th><h6>Valor</h6></th>
             <th><h6>Descricao</h6></th>
             <th><h6>Tipo Movimento</h6></th>
+            <th><h6>Data</h6></th>
             </thead>
             <tbody>
             <?php
@@ -26,6 +27,7 @@ $montante = Data::get('montante');
                         <td><?=$movlist->valor?> €</td>
                         <td><?=$movlist->descricao?></td>
                         <td><?=$movlist->tipomovimento?></td>
+                        <td><?=$movlist->data->format('Y-m-d i:s')?></td>
                     </tr>
                     <?php
                 }
