@@ -14,7 +14,8 @@ $msg = Data::get('msg'); ?>
         <input type="date" value="<?= $user->birthday->format('Y-m-d') ?>" name="birthday" class="form-control">
         <p><?=$msg?></p>
         <button class="btn btn-lg btn-dark btn-block" type="submit">Guardar</button>
-        <a class="btn btn-secondary btn-light btn-outline-danger btn-block" data-toggle="modal" data-target="#exampleModal">Eliminar Conta</a>
+
+
     </form>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

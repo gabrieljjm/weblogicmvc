@@ -8,7 +8,6 @@ $scores = Data::get('scores'); ?>
     <div class="form-signin">
         <h1 class="h3 mb-3 font-weight-normal">Perfil: <?=$user->username?></h1>
         <input type="text" readonly value="<?=$user->fullname?>" name="fullname" class="form-control">
-        <input type="date" readonly value="<?= $user->birthday->format('Y-m-d') ?>" name="birthday" class="form-control">
     </div>
     <div class="container">
         <table class="table table-sm table-striped">
@@ -31,9 +30,9 @@ $scores = Data::get('scores'); ?>
                         <td><?=$scorelist->playerb?></td>
                         <?php
                         if ($scorelist->playera < $scorelist->playerb){
-                            echo "<td>Ganhou</td>";
-                        }elseif ($scorelist->playera > $scorelist->playerb){
                             echo "<td>Perdeu</td>";
+                        }elseif ($scorelist->playera > $scorelist->playerb){
+                            echo "<td>Ganhou</td>";
                         }else{
                             echo "<td>Empate</td>";
                         }

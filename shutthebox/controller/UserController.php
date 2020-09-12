@@ -209,7 +209,8 @@ class UserController extends BaseController {
             }else{
                 $username = Session::get('username');
                 $userlayout = User::find_by_username($username);
-                return View::make('user.show', ['userlayout' => $userlayout, 'user' => $user, 'scores' => $scores]);
+                $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from accounts where accounts.user_id ='$user->id'");
+                return View::make('user.show', ['userlayout' => $userlayout, 'user' => $user, 'scores' => $scores, 'montante'=>$montante]);
             }
         }else{
             return Redirect::toRoute('home/menu');
