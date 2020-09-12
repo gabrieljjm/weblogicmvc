@@ -1,6 +1,11 @@
 <?php use ArmoredCore\WebObjects\Layout;
 use ArmoredCore\WebObjects\URL;
-Layout::includeLayout('header') ?>
+use ArmoredCore\WebObjects\Data;
+Layout::includeLayout('header');
+$valor = Data::get('valor');
+$montante = Data::get('soma');
+
+?>
 
 
     <div class="container text-center">

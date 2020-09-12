@@ -2,11 +2,12 @@
 use ArmoredCore\WebObjects\Asset;
 use ArmoredCore\Facades\AssetBundler;
 use ArmoredCore\WebObjects\URL;
-use ArmoredCore\WebObjects\Data; ?>
-<?php
+use ArmoredCore\WebObjects\Data;
+
 $user = Data::get('userlayout');
 $game = Data::get('game');
 $acc = Data::get('account');
+$montante = Data::get('montante');
 ?>
 
 <!DOCTYPE html>
@@ -42,6 +43,7 @@ $acc = Data::get('account');
                 </li>
             </ul>
             <?php
+
             }else{
             ?>
             <ul class="navbar-nav">
@@ -58,7 +60,7 @@ $acc = Data::get('account');
                     <a class="nav-link" href="<?= Url::toRoute('account/movimentos')?>">Movimentos da Conta</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?= Url::toRoute('account/menu')?>"><?=$acc->valor?> €</a>
+                    <a class="nav-link" href="<?= Url::toRoute('account/menu')?>"><?=number_format($montante[0]->soma, 2, ',', ' ')?> €</a>
                 </li>
                 <?php
                 if ($user->admin == 1){

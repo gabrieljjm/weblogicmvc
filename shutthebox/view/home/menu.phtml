@@ -1,6 +1,10 @@
 <?php use ArmoredCore\WebObjects\Layout;
-Layout::includeLayout('header') ?>
+use ArmoredCore\WebObjects\Data;
+Layout::includeLayout('header');
+$montante = Data::get('soma');
+?>
 
-<p>Bem vindooo!</p>
+<p>Bem vindooqwqwo!</p>
+
 
 <?php Layout::includeLayout('footer') ?>

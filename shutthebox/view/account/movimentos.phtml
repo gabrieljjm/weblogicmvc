@@ -1,6 +1,38 @@
 <?php use ArmoredCore\WebObjects\Layout;
-Layout::includeLayout('header') ?>
+use ArmoredCore\WebObjects\URL;
+use ArmoredCore\WebObjects\Data;
+Layout::includeLayout('header');
+$movimentos = Data::get('movimentos');
+$montante = Data::get('montante');
 
-<p>Movimentos</p>
+?>
+
+    <div class="form-signin">
+        <h1 class="h3 mb-3 font-weight-normal">Movimentos da conta</h1>
+    </div>
+    <div class="container text-center">
+        <table class="table table-bordered table-responsive-lg table-striped">
+            <thead>
+            <th><h6>Valor</h6></th>
+            <th><h6>Descricao</h6></th>
+            <th><h6>Tipo Movimento</h6></th>
+            </thead>
+            <tbody>
+            <?php
+            if (!is_null($movimentos)){
+                foreach ($movimentos as $movlist) {
+                    ?>
+                    <tr>
+                        <td><?=$movlist->valor?> €</td>
+                        <td><?=$movlist->descricao?></td>
+                        <td><?=$movlist->tipomovimento?></td>
+                    </tr>
+                    <?php
+                }
+            }
+            ?>
+            </tbody>
+        </table>
+    </div>
 
 <?php Layout::includeLayout('footer') ?>

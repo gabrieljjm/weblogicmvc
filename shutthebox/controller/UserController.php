@@ -45,6 +45,7 @@ class UserController extends BaseController {
 
     public function login()
     {
+
         if ($this->check()){
             Redirect::toRoute('home/menu');
         }else{
@@ -59,6 +60,7 @@ class UserController extends BaseController {
             $user = new User(Post::getAll());
             $usercompare = User::find_by_username($user->username);
 //
+            #$montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from `accounts` where accounts.user_id ='$usercompare->id'");
 
             //
             if ((is_null($usercompare))){
@@ -77,7 +79,9 @@ class UserController extends BaseController {
             }else{
                 Session::set('username', $usercompare->username);
                 Session::set('pwd', $usercompare->pwd);
+                #Session::set('soma', $montante[0]->soma);
                 return Redirect::toRoute('home/menu');
+
             }
         }
     }
@@ -122,8 +126,9 @@ class UserController extends BaseController {
         $username = Session::get('username');
         $user = User::find_by_username($username);
         $account = Accounts::find_by_user_id($user->id);
+        $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from accounts where accounts.user_id ='$user->id'");
         $scores = Score::all(array('conditions' => array('userid=?',$user->id), 'order' => 'matchdate desc'));
-        return View::make('user.profile', ['userlayout' => $user, 'scores' => $scores, 'account'=> $account]);
+        return View::make('user.profile', ['userlayout' => $user, 'scores' => $scores, 'account'=> $account, 'montante' => $montante]);
     }
 
     public function edit()
@@ -138,7 +143,8 @@ class UserController extends BaseController {
         if (!Post::has('email')){
             $username = Session::get('username');
             $user = User::find_by_username($username);
-            return View::make('user.edit', ['userlayout' => $user, 'user' => $user, 'msg' => ""]);
+            $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from accounts where accounts.user_id ='$user->id'");
+            return View::make('user.edit', ['userlayout' => $user, 'user' => $user, 'msg' => "", 'montante' => $montante]);
         }else{
             $username = Session::get('username');
             $usercompare = User::find_by_username($username);
@@ -153,11 +159,13 @@ class UserController extends BaseController {
                 } else {
                     // return form with data and errors
                     $msg = "Utilizador inválido!";
-                    return View::make('user.edit', ['user' => $user, 'userlayout' => $usercompare, 'msg' => $msg]);
+                    $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from accounts where accounts.user_id ='$user->id'");
+                    return View::make('user.edit', ['user' => $user, 'userlayout' => $usercompare, 'msg' => $msg, 'montante' => $montante]);
                 }
             }else{
                 $msg = "Email é usado noutra conta!";
-                return View::make('user.edit', ['user' => $user, 'userlayout' => $usercompare, 'msg' => $msg]);
+                $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from accounts where accounts.user_id ='$user->id'");
+                return View::make('user.edit', ['user' => $user, 'userlayout' => $usercompare, 'msg' => $msg, 'montante' => $montante]);
             }
         }
     }

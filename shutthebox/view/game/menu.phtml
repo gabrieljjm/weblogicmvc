@@ -1,15 +1,15 @@
 <?php use ArmoredCore\WebObjects\Data;
 use ArmoredCore\WebObjects\Layout;
 use ArmoredCore\WebObjects\URL;
-
-Layout::includeLayout('header') ;
+Layout::includeLayout('header');
+$msg = Data::get('mensagem');
 ?>
-
     <div class="container text-center">
         <br>
-        <a href="<?= Url::toRoute('game/game')?>" class="btn btn-lg btn-danger">
-            COMEÇAR
-        </a>
+        <form class="form-signin" method="post" action="<?= Url::toRoute('game/game')?>">
+            <button class="btn btn-lg btn-danger" type="submit"  data-target="#exampleModal">Começar</button>
+        </form>
     </div>
+
 
 <?php Layout::includeLayout('footer') ?>

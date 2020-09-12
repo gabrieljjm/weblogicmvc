@@ -3,7 +3,8 @@ use ArmoredCore\WebObjects\Layout;
 use ArmoredCore\WebObjects\URL;
 Layout::includeLayout('header');
 $user = Data::get('userlayout');
-$top = Data::get('top'); ?>
+$top = Data::get('top');
+$montante = Data::get('montante')?>
 
     <div class="form-signin">
         <h1 class="h3 mb-3 font-weight-normal">Top 10 Jogadores</h1>

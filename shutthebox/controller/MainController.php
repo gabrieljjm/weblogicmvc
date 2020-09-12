@@ -17,7 +17,8 @@ class MainController extends BaseController
         }
         $username = Session::get('username');
         $user = User::find_by_username($username);
-        return Redirect::flashToRoute('home/menu', ['userlayout' => $user]);
+        $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from accounts where accounts.user_id ='$user->id'");
+        return Redirect::flashToRoute('home/menu', ['userlayout' => $user, 'soma' => $montante]);
     }
 
     public function index(){
@@ -31,9 +32,11 @@ class MainController extends BaseController
         $username = Session::get('username');
         $user = User::find_by_username($username);
         $account = Accounts::find_by_user_id($user->id);
-        return View::make('home.menu', ['account' => $account, 'userlayout' => $user]);
+        $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from accounts where accounts.user_id ='$user->id'");
+        return View::make('home.menu', ['account' => $account, 'userlayout' => $user, 'montante' => $montante]);
 
     }
+
 
 
 
@@ -54,7 +57,8 @@ class MainController extends BaseController
         $username = Session::get('username');
         $user = User::find_by_username($username);
         $account = Accounts::find_by_user_id($user->id);
-        return View::make('home.top', ['userlayout' => $user, 'top' => $top, 'account'=>$account]);
+        $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from accounts where accounts.user_id ='$user->id'");
+        return View::make('home.top', ['userlayout' => $user, 'top' => $top, 'account'=>$account, 'montante' => $montante]);
     }
 
     public function check(){

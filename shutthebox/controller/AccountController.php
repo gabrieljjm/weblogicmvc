@@ -19,18 +19,13 @@ class AccountController extends BaseController
         $username = Session::get('username');
         $user = User::find_by_username($username);
         $account = Accounts::find_by_user_id($user->id);
-        var_dump($account);
-        return View::make('account.menu', ['account' => $account, 'userlayout' => $user]);
+        $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from `accounts` where accounts.user_id ='$user->id'");
+        return View::make('account.menu', ['account' => $account, 'userlayout' => $user, 'montante' => $montante]);
+
     }
 
     public function movimentos(){
 
-        $movimentos = User::find_by_sql('SELECT users.id, users.username,
-                (SELECT COUNT(*) from `scores` where scores.userid = users.id and scores.playerA > scores.playerB) as \'win\',
-                (SELECT COUNT(*) from `scores` where scores.userid = users.id and scores.playerA < scores.playerB) as \'def\',
-                (SELECT COUNT(*) from `scores` where scores.userid = users.id and scores.playerA = scores.playerB) as \'tie\'
-                FROM `users` ORDER BY (SELECT COUNT(*) from `scores` where scores.userid = users.id and scores.playerA > scores.playerB) DESC
-                LIMIT 10');
         if (!$this->check()) {
             try {
                 Session::remove('username');
@@ -41,7 +36,12 @@ class AccountController extends BaseController
         $username = Session::get('username');
         $user = User::find_by_username($username);
         $account = Accounts::find_by_user_id($user->id);
-        return View::make('account.movimentos', ['account' => $account, 'userlayout' => $user]);
+        $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from `accounts` where accounts.user_id ='$user->id'");
+        $mov = Accounts::find_by_sql("select accounts.data, accounts.valor, accounts.descricao, accounts.tipoMovimento from `accounts`
+        where accounts.user_id ='$user->id'");
+
+        return View::make('account.movimentos', ['account' => $account, 'userlayout' => $user, 'movimentos'=>$mov, 'montante' => $montante]);
+
     }
 
     public function RechargeBalance(){
@@ -56,7 +56,8 @@ class AccountController extends BaseController
         $username = Session::get('username');
         $user = User::find_by_username($username);
         $account = Accounts::find_by_user_id($user->id);
-        return View::make('account.saldo', ['account' => $account, 'userlayout' => $user]);
+        $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from `accounts` where accounts.user_id ='$user->id'");
+        return View::make('account.saldo', ['account' => $account, 'userlayout' => $user, 'montante' => $montante]);
     }
 
     public function insertRechargeBalance(){
@@ -73,21 +74,14 @@ class AccountController extends BaseController
         $account = Accounts::find_by_user_id($user->id);
         $acc = new Accounts(Post::getAll());
         $acc->user_id = $user->id;
-        $acc->tipomovimento = "Carregamento";
+        $acc->tipomovimento = "Crédito";
         $acc->data = date("Y/m/d");
         if ($acc->is_valid()){
-            if($acc->save()){
-
-            }
-
-
+            $acc->save();
         }
-
-        return View::make('account.saldo', ['account' => $account, 'userlayout' => $user]);
+        $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from `accounts` where accounts.user_id ='$user->id'");
+        return View::make('account.saldo', ['account' => $account, 'userlayout' => $user, 'montante' => $montante]);
     }
-
-
-
 
 
 
@@ -96,6 +90,7 @@ class AccountController extends BaseController
             $username = Session::get('username');
             $pwd = Session::get('pwd');
             $user = User::find_by_username($username);
+
             if ((is_null($user))){
                 return false;
             }elseif (strcmp($user->pwd, $pwd) != 0){

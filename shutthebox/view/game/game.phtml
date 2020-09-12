@@ -4,6 +4,7 @@ use ArmoredCore\WebObjects\Data;
 use ArmoredCore\WebObjects\URL;
 
 $game = Data::get('game');
+$msg = Data::get('msg');
 
 
 Layout::includeLayout('header') ?>
@@ -110,22 +111,8 @@ Layout::includeLayout('header') ?>
                     </div>
                 </div>
 
-                <form method="post">
-                    <input type="submit" name="test" id="test" value="Lançar dados" /><br/>
-                </form>
 
-                <?php
 
-                function lançarDados()
-                {
-                    echo "Botão está a funcionar";
-                }
-
-                if(array_key_exists('test',$_POST)){
-                    lançarDados();
-                }
-
-                ?>
                 <div class="row mt-3">
                     <div class="col-md-12">
                         <img alt="Bootstrap Image Preview" src="<?=Asset::image('Dice/dieRed'. $game->pcdices[0] .'.png')?>" />
