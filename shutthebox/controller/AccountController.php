@@ -56,7 +56,6 @@ class AccountController extends BaseController
         $account = Accounts::find_by_user_id($user->id);
 
         $acc = new Accounts(Post::getAll());
-        if (!Accounts::find('first',array('valor' => $acc->valor))) {
             $acc->user_id = $user->id;
             $acc->tipomovimento = "Crédito";
             $acc->data = date("Y/m/d");
@@ -64,7 +63,7 @@ class AccountController extends BaseController
             if ($acc->is_valid()) {
                 $acc->save();
             }
-        }
+        
 
         $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from `accounts` where accounts.user_id ='$user->id'");
         return View::make('account.saldo', ['account' => $account, 'userlayout' => $user, 'montante' => $montante]);
