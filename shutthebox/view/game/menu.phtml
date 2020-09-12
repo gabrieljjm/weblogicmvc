@@ -2,15 +2,17 @@
 use ArmoredCore\WebObjects\Layout;
 use ArmoredCore\WebObjects\URL;
 Layout::includeLayout('header');
+$bt = Data::get('botao');
 $msg = Data::get('mensagem');
+$msg2 = Data::get('saldo');
 ?>
     <div class="container text-center">
         <br>
         <form class="form-signin" method="post" >
-            <a class="btn btn-lg btn-danger"  data-toggle="modal" data-target="#exampleModal">Começar</a>
+            <a class="btn btn-lg btn-danger"  data-toggle="modal" data-target="#exampleModal" <?= $msg ?>>Começar</a>
+
         </form>
     </div>
-
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -21,11 +23,12 @@ $msg = Data::get('mensagem');
                     </button>
                 </div>
                 <div class="modal-body">
-                    Ao premir o botão "Ok" serão-lhe retirados 0,05 euros.
+                    <?= $msg2 ?>
+                    <?= $msg ?>
                 </div>
                 <form class="modal-footer" method="post" action="<?= Url::toRoute('game/game') ?>">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Não</button>
-                    <button class="btn btn-success" type="submit" >Ok</button>
+                    <button class="btn btn-success" type="submit" <?= $bt ?> >Ok</button>
                 </form>
             </div>
         </div>

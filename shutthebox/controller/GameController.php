@@ -23,6 +23,18 @@ class GameController extends BaseController
         $mov = Accounts::find_by_sql("select accounts.data, accounts.valor, accounts.descricao, accounts.tipoMovimento from `accounts`
         where accounts.user_id ='$user->id'");
         $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from accounts where accounts.user_id ='$user->id'");
+
+        if($montante[0]->soma <= 0 ){
+            $botao = "disabled";
+            $saldoPositivo = "Ao premir o botão 'Ok' serão-lhe retirados 0,05 euros.";
+            $mensagem = "O saldo atual não lhe permite jogar.";
+            return View::make('game.menu', ['userlayout' => $user, 'account' => $account, 'montante' => $montante, 'botao' => $botao, 'mensagem'=>$mensagem,'saldo' => null ]);
+        }else{
+            $saldoPositivo = "Ao premir o botão 'Ok' serão-lhe retirados 0,05 euros.";
+
+            return View::make('game.menu', ['userlayout' => $user, 'account' => $account, 'montante' => $montante, 'saldo' => $saldoPositivo, 'botao' => null, 'mensagem' => null]);
+        }
+
         return View::make('game.menu', ['userlayout' => $user, 'account' => $account, 'montante' => $montante]);
     }
 
