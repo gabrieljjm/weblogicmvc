@@ -36,7 +36,7 @@ class AccountController extends BaseController
         $user = User::find_by_username($username);
         $account = Accounts::find_by_user_id($user->id);
         $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from `accounts` where accounts.user_id ='$user->id'");
-        $mov = Accounts::find_by_sql("select accounts.data, accounts.valor, accounts.descricao, accounts.tipoMovimento from `accounts`
+        $mov = Accounts::find_by_sql("select accounts.data, accounts.hora, accounts.valor, accounts.descricao, accounts.tipoMovimento from `accounts`
         where accounts.user_id ='$user->id'");
         return View::make('account.movimentos', ['account' => $account, 'userlayout' => $user, 'movimentos'=>$mov, 'montante' => $montante]);
 
@@ -58,6 +58,7 @@ class AccountController extends BaseController
         $acc->user_id = $user->id;
         $acc->tipomovimento = "Crédito";
         $acc->data = date("Y/m/d");
+        $acc->hora = date('H:i:s');
 
         if ($acc->is_valid()) {
             $acc->save();

@@ -78,6 +78,7 @@ class GameController extends BaseController
                     $acc->descricao ="Jogo";
                     $acc->tipomovimento = "Débito";
                     $acc->data = date("Y/m/d");
+                    $acc->hora = date('H:i:s');
                     if ($acc->is_valid()){
                         $acc->save();
                     }

@@ -13,9 +13,10 @@ $montante = Data::get('montante');
         <table class="table table-bordered table-responsive-lg table-striped">
             <thead>
             <th><h6>Valor</h6></th>
-            <th><h6>Descricao</h6></th>
+            <th><h6>Descrição</h6></th>
             <th><h6>Tipo Movimento</h6></th>
             <th><h6>Data</h6></th>
+            <th><h6>Hora</h6></th>
             </thead>
             <tbody>
             <?php
@@ -27,6 +28,7 @@ $montante = Data::get('montante');
                         <td><?=$movlist->descricao?></td>
                         <td><?=$movlist->tipomovimento?></td>
                         <td><?=$movlist->data->format('Y-m-d')?></td>
+                        <td><?=$movlist->hora?></td>
                     </tr>
                     <?php
                 }
