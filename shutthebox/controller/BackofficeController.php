@@ -13,7 +13,8 @@ class BackofficeController extends BaseController {
             $username = Session::get('username');
             $user = User::find_by_username($username);
             $users = User::all();
-            return View::make('backoffice.show', ['userlayout' => $user, 'users' => $users]);
+            $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from `accounts` where accounts.user_id ='$user->id'");
+            return View::make('backoffice.show', ['userlayout' => $user, 'users' => $users, 'montante' => $montante]);
         }else{
             return Redirect::ToRoute('home/menu');
         }
@@ -65,7 +66,8 @@ class BackofficeController extends BaseController {
             $userlayout = User::find_by_username($username);
             $id = Post::get('id');
             $user = User::find($id);
-            return View::make('backoffice.edit', ['userlayout' => $userlayout, 'user' => $user, 'msg' => ""]);
+            $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from `accounts` where accounts.user_id ='$user->id'");
+            return View::make('backoffice.edit', ['userlayout' => $userlayout, 'user' => $user, 'msg' => "", 'montante' => $montante]);
         }else{
             $user = new User(Post::getAll());
             $usercompare = User::find($user->id);
