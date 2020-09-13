@@ -38,7 +38,6 @@ class AccountController extends BaseController
         $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from `accounts` where accounts.user_id ='$user->id'");
         $mov = Accounts::find_by_sql("select accounts.data, accounts.valor, accounts.descricao, accounts.tipoMovimento from `accounts`
         where accounts.user_id ='$user->id'");
-
         return View::make('account.movimentos', ['account' => $account, 'userlayout' => $user, 'movimentos'=>$mov, 'montante' => $montante]);
 
     }
