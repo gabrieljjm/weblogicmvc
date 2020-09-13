@@ -25,8 +25,6 @@ class UserController extends BaseController {
         }else{
             $user = new User(Post::getAll());
             if (!User::find('first',array('username' => $user->username))){
-                var_dump($user);
-                die();
                 if (!User::find('first',array('username' => $user->email))){
                     if ($user->is_valid()){
                         $user->save();
@@ -200,17 +198,20 @@ class UserController extends BaseController {
         if(Post::has('id')){
             $id = Post::get('id');
             $user = User::find($id);
+            $username = Session::get('username');
+            $usere = User::find_by_username($username);
             $scores = Score::all(array('conditions' => array('userid=?',$user->id), 'order' => 'matchdate desc'));
             if (!$this->check()) {
                 try {
                     Session::remove('username');
                     Session::remove('pwd');
                 } catch (Exception $exception) {}
-                return View::make('user.show', ['userlayout' => null, 'user' => $user, 'scores' => $scores]);
+
+                return View::make('user.show', ['userlayout' => null, 'user' => $user, 'scores' => $scores, 'montante' => null]);
             }else{
                 $username = Session::get('username');
                 $userlayout = User::find_by_username($username);
-                $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from accounts where accounts.user_id ='$user->id'");
+                $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from accounts where accounts.user_id ='$usere->id'");
                 return View::make('user.show', ['userlayout' => $userlayout, 'user' => $user, 'scores' => $scores, 'montante'=>$montante]);
             }
         }else{

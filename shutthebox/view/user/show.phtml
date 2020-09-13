@@ -3,7 +3,8 @@ use ArmoredCore\WebObjects\Layout;
 use ArmoredCore\WebObjects\URL;
 Layout::includeLayout('header');
 $user = Data::get('user');
-$scores = Data::get('scores'); ?>
+$scores = Data::get('scores');
+?>
 
     <div class="form-signin">
         <h1 class="h3 mb-3 font-weight-normal">Perfil: <?=$user->username?></h1>
