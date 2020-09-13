@@ -62,12 +62,14 @@ class AccountController extends BaseController
 
         if ($acc->is_valid()) {
             $acc->save();
-
+            return Redirect::toRoute('account/saldo');
         }
 
 
         $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from `accounts` where accounts.user_id ='$user->id'");
         return View::make('account.saldo', ['account' => $account, 'userlayout' => $user, 'montante' => $montante]);
+
+
     }
 
 

@@ -3,6 +3,7 @@ use ArmoredCore\WebObjects\Data;
 use ArmoredCore\WebObjects\URL;
 Layout::includeLayout('header');
 $account = Data::get('account');
+
 ?>
 
 
@@ -13,21 +14,7 @@ $account = Data::get('account');
         <br>
         <button class="btn btn-lg btn-dark btn-block" type="submit"  data-target="#exampleModal">Carregar</button>
         <!--data-toggle="modal"-->
+
     </form>
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Carregamento feito com sucesso.</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form class="modal-footer" method="post" action="<?= Url::toRoute('account/saldo') ?>">
-                    <button type="button" class="btn btn-success" data-dismiss="modal">Ok</button>
-                </form>
-            </div>
-        </div>
-    </div>
 
 <?php Layout::includeLayout('footer') ?>
