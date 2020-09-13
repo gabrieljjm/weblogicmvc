@@ -195,13 +195,6 @@ class UserController extends BaseController {
 
     public function show()
     {
-        if (!$this->check()) {
-            try {
-                Session::remove('username');
-                Session::remove('pwd');
-            } catch (Exception $exception) {}
-            return Redirect::toRoute('home/top');
-        }
         if(Post::has('id')){
             $id = Post::get('id');
             $user = User::find($id);

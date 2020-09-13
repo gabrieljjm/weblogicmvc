@@ -40,47 +40,56 @@ class GameController extends BaseController
 
 
     public function game(){
-        if (!$this->check()) {
-            try {
-                Session::remove('username');
-                Session::remove('pwd');
-            } catch (Exception $exception) {}
-            return Redirect::toRoute('user/login');
-        }
-        unset($_SESSION['game']);
+
         $name = Session::get('username');
-        $pwd = Session::get('pwd');
         $user = User::find('first',array('username' => $name));
-
         $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from accounts where accounts.user_id ='$user->id'");
-        if ($this->check($user, $pwd)){
-            if (isset($_SESSION['game'])){
-                $game = $_SESSION['game']->CheckGame(Session::get('game'));
-                $_SESSION['game'] = $game;
+        if($montante[0]->soma <= 0){
+            return Redirect::toRoute('game/menu');
+        }else{
+            if (!$this->check()) {
+                try {
+                    Session::remove('username');
+                    Session::remove('pwd');
+                } catch (Exception $exception) {}
+                return Redirect::toRoute('user/login');
+            }
+            unset($_SESSION['game']);
+            $name = Session::get('username');
+            $pwd = Session::get('pwd');
+            $user = User::find('first',array('username' => $name));
 
-                return View::make('game.game', ['userlayout' => $user, 'game' => $game, 'montante' => $montante]);
+            $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from accounts where accounts.user_id ='$user->id'");
+            if ($this->check($user, $pwd)){
+                if (isset($_SESSION['game'])){
+                    $game = $_SESSION['game']->CheckGame(Session::get('game'));
+                    $_SESSION['game'] = $game;
 
-            }else{
-                $game = Game::StartGame();
-                $_SESSION['game'] = $game;
+                    return View::make('game.game', ['userlayout' => $user, 'game' => $game, 'montante' => $montante]);
 
-                $account = Accounts::find_by_user_id($user->id);
-                $acc = new Accounts(Post::getAll());
-                $acc->user_id = $user->id;
-                $acc->valor = - 0.05;
-                $acc->descricao ="Jogo";
-                $acc->tipomovimento = "Débito";
-                $acc->data = date("Y/m/d");
-                if ($acc->is_valid()){
-                    $acc->save();
+                }else{
+                    $game = Game::StartGame();
+                    $_SESSION['game'] = $game;
+
+                    $account = Accounts::find_by_user_id($user->id);
+                    $acc = new Accounts(Post::getAll());
+                    $acc->user_id = $user->id;
+                    $acc->valor = - 0.05;
+                    $acc->descricao ="Jogo";
+                    $acc->tipomovimento = "Débito";
+                    $acc->data = date("Y/m/d");
+                    if ($acc->is_valid()){
+                        $acc->save();
+                    }
+
+
+                    $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from accounts where accounts.user_id ='$user->id'");
+                    return View::make('game.game', ['userlayout' => $user, 'game' => $game, 'account'=> $account, 'montante' => $montante]);
+
                 }
-
-
-                $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from accounts where accounts.user_id ='$user->id'");
-                return View::make('game.game', ['userlayout' => $user, 'game' => $game, 'account'=> $account, 'montante' => $montante]);
-
             }
         }
+
     }
 
 
