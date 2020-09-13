@@ -57,7 +57,9 @@ class GameController extends BaseController
             if (isset($_SESSION['game'])){
                 $game = $_SESSION['game']->CheckGame(Session::get('game'));
                 $_SESSION['game'] = $game;
+
                 return View::make('game.game', ['userlayout' => $user, 'game' => $game, 'montante' => $montante]);
+
             }else{
                 $game = Game::StartGame();
                 $_SESSION['game'] = $game;
@@ -72,8 +74,11 @@ class GameController extends BaseController
                 if ($acc->is_valid()){
                     $acc->save();
                 }
+
+
                 $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from accounts where accounts.user_id ='$user->id'");
                 return View::make('game.game', ['userlayout' => $user, 'game' => $game, 'account'=> $account, 'montante' => $montante]);
+
             }
         }
     }
