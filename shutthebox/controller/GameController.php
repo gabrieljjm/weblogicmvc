@@ -40,20 +40,20 @@ class GameController extends BaseController
 
 
     public function game(){
-
+        if (!$this->check()) {
+            try {
+                Session::remove('username');
+                Session::remove('pwd');
+            } catch (Exception $exception) {}
+            return Redirect::toRoute('user/login');
+        }
         $name = Session::get('username');
         $user = User::find('first',array('username' => $name));
         $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from accounts where accounts.user_id ='$user->id'");
         if($montante[0]->soma <= 0){
             return Redirect::toRoute('game/menu');
         }else{
-            if (!$this->check()) {
-                try {
-                    Session::remove('username');
-                    Session::remove('pwd');
-                } catch (Exception $exception) {}
-                return Redirect::toRoute('user/login');
-            }
+
             unset($_SESSION['game']);
             $name = Session::get('username');
             $pwd = Session::get('pwd');
