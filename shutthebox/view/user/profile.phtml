@@ -35,9 +35,9 @@ $scores = Data::get('scores'); ?>
                         <td><?=$scorelist->playerb?></td>
                         <?php
                         if ($scorelist->playera < $scorelist->playerb){
-                            echo "<td>Ganhou</td>";
-                        }elseif ($scorelist->playera > $scorelist->playerb){
                             echo "<td>Perdeu</td>";
+                        }elseif ($scorelist->playera > $scorelist->playerb){
+                            echo "<td>Ganhou</td>";
                         }else{
                             echo "<td>Empate</td>";
                         }

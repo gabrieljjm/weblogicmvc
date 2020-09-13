@@ -474,6 +474,10 @@ mark,
   max-width: 100%;
   height: auto;
 }
+.img-fluid {
+  max-width: 50%;
+  height: auto;
+}
 
 .img-thumbnail {
   padding: 0.25rem;
@@ -10276,5 +10280,11 @@ a.text-dark:hover, a.text-dark:focus {
     border-color: #dee2e6;
   }
 
+  #over img {
+    max-width:200px;
+    max-height:150px;
+    width: auto;
+    height: auto;
+  }
 }
 /*# sourceMappingURL=bootstrap.css.map */

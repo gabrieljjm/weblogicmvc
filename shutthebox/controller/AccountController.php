@@ -44,6 +44,7 @@ class AccountController extends BaseController
     }
 
     public function insertRechargeBalance(){
+
         if (!$this->check()) {
             try {
                 Session::remove('username');
@@ -54,16 +55,16 @@ class AccountController extends BaseController
         $username = Session::get('username');
         $user = User::find_by_username($username);
         $account = Accounts::find_by_user_id($user->id);
-
         $acc = new Accounts(Post::getAll());
-            $acc->user_id = $user->id;
-            $acc->tipomovimento = "Crédito";
-            $acc->data = date("Y/m/d");
+        $acc->user_id = $user->id;
+        $acc->tipomovimento = "Crédito";
+        $acc->data = date("Y/m/d");
 
-            if ($acc->is_valid()) {
-                $acc->save();
-            }
-        
+        if ($acc->is_valid()) {
+            $acc->save();
+
+        }
+
 
         $montante = Accounts::find_by_sql("select sum(accounts.valor) as soma from `accounts` where accounts.user_id ='$user->id'");
         return View::make('account.saldo', ['account' => $account, 'userlayout' => $user, 'montante' => $montante]);
