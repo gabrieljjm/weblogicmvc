@@ -27,7 +27,11 @@ $montante = Data::get('montante')?>
                         <td><?=$toplist->win?></td>
                         <td><?=$toplist->def?></td>
                         <td><?=$toplist->tie?></td>
+                    <?php
+                    if (!is_null($user)){
+                        ?>
                         <td>
+
                             <form method="post" action="<?= Url::toRoute('user/show') ?>">
                                 <button type="submit" name="id" value="<?=$toplist->id?>" class="btn btn-lg text-info btn-block">
                                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -37,6 +41,10 @@ $montante = Data::get('montante')?>
                                 </button>
                             </form>
                         </td>
+                        
+                        <?php
+                    }
+                        ?>
                     </tr>
                 <?php
                 }
