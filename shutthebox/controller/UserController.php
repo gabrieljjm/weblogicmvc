@@ -15,6 +15,7 @@ class UserController extends BaseController {
             try {
                 Session::remove('email');
                 Session::remove('pwd');
+                Session::remove('game');
             }catch (Exception $exception){}
         }
         // create new resource (activerecord/model) instance
@@ -24,6 +25,8 @@ class UserController extends BaseController {
         }else{
             $user = new User(Post::getAll());
             if (!User::find('first',array('username' => $user->username))){
+                var_dump($user);
+                die();
                 if (!User::find('first',array('username' => $user->email))){
                     if ($user->is_valid()){
                         $user->save();

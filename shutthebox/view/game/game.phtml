@@ -102,26 +102,23 @@ Layout::includeLayout('header') ?>
                 </div>
 
 
+                <form class="form-signin" method="post" action="<?= Url::toRoute('game/game')?>">
+                    <button type="submit" class="btn btn-info" >
+                        Lançar os Dados
+                    </button>
+                </form>
 
-
-                <div class="row mt-3">
-                    <div class="col-md-12">
-                        <button type="submit" class="btn btn-info" name="throw" value="lancar" >
-                            Lançar os Dados
-                        </button>
-                    </div>
-                </div>
 
 
 
                 <div class="row mt-3">
                     <div class="col-md-12">
-                        <img alt="Bootstrap Image Preview" src="<?=Asset::image('Dice/dieRed'. $game->pcdices[0] .'.png')?>" />
+                        <img alt="Bootstrap Image Preview" src="<?=Asset::image('Dice/dieRed'. $game->playerdices[0] .'.png')?>" />
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-12">
-                        <img alt="Bootstrap Image Preview" src="<?=Asset::image('Dice/dieRed'. $game->pcdices[1] .'.png')?>" />
+                        <img alt="Bootstrap Image Preview" src="<?=Asset::image('Dice/dieRed'. $game->playerdices[1] .'.png')?>" />
                     </div>
                 </div>
             </div>

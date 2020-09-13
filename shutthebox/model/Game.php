@@ -19,8 +19,8 @@ class Game
    public static function StartGame(){
        $game = new Game();
         $game->stategame = "start";
-        $game->playerdices = array();
-        $game->pcdices = array(3, 1);
+        $game->playerdices = array(rand(1,6), rand(1,6));
+        $game->pcdices = array();
         $game->playerscore = 0;
         return $game;
     }
